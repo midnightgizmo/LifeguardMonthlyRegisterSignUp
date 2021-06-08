@@ -1,0 +1,7 @@
+{
+    "name": "gizmo/lifeguardmonthlyregistersignup",
+    "description": "Lifeguard sign up sheet",
+    "require": {
+        "rbdwllr/reallysimplejwt": "^2.0"
+    }
+}

@@ -1,0 +1,5 @@
+# local env files
+.env.*.php
+
+# Editor directories and files
+.vscode
