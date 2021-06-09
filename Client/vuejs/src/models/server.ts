@@ -1054,12 +1054,42 @@ class Server
               'Content-Type': contentType == undefined? 'application/x-www-form-urlencoded' : contentType
           
             }
+            // headers: {
+          
+            //     'Content-Type': contentType == undefined? 'application/json' : contentType
+            
+            //   }
           
           }
 
+          // data is currently set to be sent for php to read. However if we are using another backend
+          // e.g. asp.net, we will need to change the way the data is sent to the server          
+          switch(process.env.VUE_APP_PostType)
+          {
+              case 'dotnet':
+
+                // convert the data into the corret way form data should be sent.
+                // e.g. "name:bob&age:6&height:9"
+                let myData : string = '';
+                // go through each property in the data object we were sent
+                for (const [key, value] of Object.entries(data)) 
+                {
+                  // convert the property name and property value to a string
+                  myData += key + '=' + value + '&';
+                }
+                // remove the last "&" from the string and overwrite the data value passed in with
+                // the new value we will be using to send to the server.
+                data = myData.substring(0, myData.length - 1);
+                break;
+          }
+          
+
         try
         {
-            let result = await axios.post(url,data,config)
+            let result = await axios.post(url,data,config);
+            
+            //let result = await axios.post(url,JSON.stringify(data),config)
+
             if(result.status == 200)
             {
                 response.satusCode = 200;
