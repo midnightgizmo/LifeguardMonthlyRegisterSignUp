@@ -43,17 +43,18 @@ namespace MonthlyLifeguardRegister
                 app.UseMiddleware<RequestLoggingMiddleware>();
             }
 
-            
+
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            
+            // my own middle ware to set up cors headers ("Access-Control-Allow-Credentials" & "Access-Control-Allow-Origin")
+            app.UseCorsMiddleware();
 
             app.UseAuthorization();
 
-            
+
 
             app.UseEndpoints(endpoints =>
             {
