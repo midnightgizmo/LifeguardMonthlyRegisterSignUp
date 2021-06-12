@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
+using MonthlyLifeguardRegister.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,15 +18,15 @@ namespace MonthlyLifeguardRegister.Middleware
     {
         private readonly RequestDelegate _next;
 
-        public CorsMiddleware(RequestDelegate next, IConfiguration configuration)
+
+        public CorsMiddleware(RequestDelegate next)
         {
             _next = next;
-            Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
 
-        public async Task Invoke(HttpContext httpContext, IConfiguration configuration)
+
+        public async Task Invoke(HttpContext httpContext, IOptions<AppSettings> appSettings)
         {
 
             // sets the cors headers ("Access-Control-Allow-Credentials" & "Access-Control-Allow-Origin")
@@ -42,7 +44,7 @@ namespace MonthlyLifeguardRegister.Middleware
             }
 
             // create the url using the scheme, the domainname we have set in the appsettings.json file and the port number if the client has one set
-            url = clientUri.Scheme + "://" + Configuration["AppSettings:DomainName"];
+            url = clientUri.Scheme + "://" + appSettings.Value.DomainName;
             // check to see if a port has been attached to the uri
             string[] splitURL = clientUri.OriginalString.Split("://");
             int portPosition = splitURL[splitURL.Length - 1].LastIndexOf(':');
