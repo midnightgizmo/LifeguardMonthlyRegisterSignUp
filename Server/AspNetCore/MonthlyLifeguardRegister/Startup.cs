@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using MonthlyLifeguardRegister.Middleware;
+using MonthlyLifeguardRegister.Models;
 
 namespace MonthlyLifeguardRegister
 {
@@ -28,7 +29,9 @@ namespace MonthlyLifeguardRegister
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
+            // configure strongly typed settings object
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+
             services.AddControllers();
             
         }
