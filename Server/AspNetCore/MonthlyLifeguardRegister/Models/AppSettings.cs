@@ -8,5 +8,9 @@ namespace MonthlyLifeguardRegister.Models
     public class AppSettings
     {
         public string DomainName { get; set; }
+        /// <summary>
+        ///  The key used when creating the jwt
+        /// </summary>
+        public string jwtsecretKey { get; set; }
     }
 }
