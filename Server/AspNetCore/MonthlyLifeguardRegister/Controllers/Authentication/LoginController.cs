@@ -9,6 +9,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 //using System.Web.Http.Cors;
 using MonthlyLifeguardRegister.Models.Authentication;
+using Microsoft.Extensions.Options;
+using MonthlyLifeguardRegister.Models;
+using MonthlyLifeguardRegister.Classess.Security;
+using MonthlyLifeguardRegister.ControllersLogic.Authentication;
 
 namespace MonthlyLifeguardRegister.Controllers.Authentication
 {
@@ -19,6 +23,15 @@ namespace MonthlyLifeguardRegister.Controllers.Authentication
     [Route("API/Authentication/Login.php")]
     public class LoginController : Controller
     {
+        public LoginController(IOptions<AppSettings> appSettings)
+        {
+            this.AppSettings = appSettings.Value;
+        }
+
+        /// <summary>
+        /// The settings from the appsettings.json file
+        /// </summary>
+        public AppSettings AppSettings { get; }
   
         /// <summary>
         /// When the user sends login details to loginto the app
@@ -29,13 +42,18 @@ namespace MonthlyLifeguardRegister.Controllers.Authentication
         [Produces("application/json")]
         public LoginAuthentication authenticate([FromForm] LoginRequest loginData)
         {
-            LoginAuthentication loginResponseData = new LoginAuthentication();
-            loginResponseData._isLoggedIn = false;
-            loginResponseData._errorMessage = "Not yet implemented on server side";
-
-
-            // converts the class to a json object and sends it back to the client
+            // the response message to send back to the client
+            LoginAuthentication loginResponseData;
+            
+            LoginControllerLogic loginControllerLogic = new LoginControllerLogic();
+            
+            // check the login details to see if they are correct. if they are create a jwt cookie to send back to the user
+            loginResponseData = loginControllerLogic.authenticate_CreateLoginResponse(loginData, this.AppSettings, this.HttpContext.Response);
+            
+            // the response we will send back to the client to let them know if they have sucsefully logged in or not
             return loginResponseData;
+
+            
         }
         
     }
