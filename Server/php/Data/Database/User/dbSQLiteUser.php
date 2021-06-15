@@ -413,7 +413,6 @@ class dbSQLiteUser
         $query .= "SET ";
         $query .= "firstName=:firstName,";
         $query .= "surname=:surname,";
-        $query .= "DateTimeFromWhenRegisterCanBeUsed=:DateTimeFromWhenRegisterCanBeUsed,";
         $query .= "password=:password,";
         $query .= "isUserActive=:isUserActive ";
         $query .= "WHERE id=:id";
