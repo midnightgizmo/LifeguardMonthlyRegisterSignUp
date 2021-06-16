@@ -42,12 +42,10 @@ namespace MonthlyLifeguardRegister.Classess.Security
             JwtSecurityTokenHandler jwt = new JwtSecurityTokenHandler();
    
             SecurityTokenDescriptor tokenDescriptor = this.createTokenDescriptor(dateWhenExpires);
-            // add the id, first name and surname
-            tokenDescriptor.AdditionalHeaderClaims = new Dictionary<string, object>();
-            tokenDescriptor.AdditionalHeaderClaims.Add("id", userID);
-            tokenDescriptor.AdditionalHeaderClaims.Add("userFirstName", userFirstName);
-            tokenDescriptor.AdditionalHeaderClaims.Add("userSurname", userSurname);
-
+            tokenDescriptor.Claims = new Dictionary<string, object>();
+            tokenDescriptor.Claims.Add("id", userID);
+            tokenDescriptor.Claims.Add("userFirstName", userFirstName);
+            tokenDescriptor.Claims.Add("userSurname", userSurname);
             // create the jwt
             SecurityToken token = jwt.CreateToken(tokenDescriptor);
 
@@ -89,7 +87,7 @@ namespace MonthlyLifeguardRegister.Classess.Security
         }
 
         /// <summary>
-        /// Gets the client data from json web token
+        /// Validates the jwt and gets the client data from json web token if valid. retuns null if not valid
         /// </summary>
         /// <param name="jwt">the json web token string </param>
         /// <returns>returns null if validation values</returns>
@@ -115,15 +113,15 @@ namespace MonthlyLifeguardRegister.Classess.Security
                 // look for the id, first name and surname
                 switch(claim.Type)
                 {
-                    case nameof(JwtUser.id):
+                    case "id":
                         jwtUser.id = int.Parse(claim.Value);
                         break;
 
-                    case nameof(JwtUser.firstName):
+                    case "userFirstName":
                         jwtUser.firstName = claim.Value;
                         break;
 
-                    case nameof(JwtUser.surname):
+                    case "userSurname":
                         jwtUser.surname = claim.Value;
                         break;
                 }
@@ -168,7 +166,7 @@ namespace MonthlyLifeguardRegister.Classess.Security
                 jwtToken = (JwtSecurityToken)validatedToken;
 
             }
-            catch
+            catch(Exception e)
             {
                 // do nothing if jwt validation fails
             }
@@ -192,7 +190,7 @@ namespace MonthlyLifeguardRegister.Classess.Security
             SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor()
             {
                 Expires = dateWhenExpires,
-                NotBefore = dateWhenExpires.Subtract(new TimeSpan(0, 0, 30)),
+                NotBefore = DateTime.Now.Subtract(new TimeSpan(0,0,30)),//dateWhenExpires.Subtract(new TimeSpan(0, 0, 30)),
                 IssuedAt = DateTime.Now,
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
