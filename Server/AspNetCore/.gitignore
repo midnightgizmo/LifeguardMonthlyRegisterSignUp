@@ -6,6 +6,9 @@
 # Database file
 MonthlyLifeguardRegister/Classess/Database/dbLifeguardMonthlyRegister.db
 
+#local env files
+MonthlyLifeguardRegister/appsettings.Development.json
+
 # User-specific files
 *.rsuser
 *.suo
