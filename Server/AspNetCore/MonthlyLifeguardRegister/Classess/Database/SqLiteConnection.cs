@@ -18,7 +18,8 @@ namespace MonthlyLifeguardRegister.Classess.Database
         {
             try
             {
-                this._con = new SqliteConnection(location);
+                string connectionString = $"Data Source = {location};";
+                this._con = new SqliteConnection(connectionString);
                 this._con.Open();
 
                 return true;
