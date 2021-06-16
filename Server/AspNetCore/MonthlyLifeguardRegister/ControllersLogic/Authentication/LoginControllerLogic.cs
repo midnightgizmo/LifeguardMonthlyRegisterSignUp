@@ -24,8 +24,11 @@ namespace MonthlyLifeguardRegister.ControllersLogic.Authentication
             // JWT
             // https://jasonwatmore.com/post/2021/04/30/net-5-jwt-authentication-tutorial-with-example-api
 
+            // the response data to the client
             LoginAuthentication loginResponseData = new LoginAuthentication();
-            Authorize authorize = new Authorize();
+
+            // will check if user name and password are correct
+            Authorize authorize = new Authorize(appSettings);
             // the users details we get from the database if the login details they sent in are correct
             UserFullDetails userFullDetails = null;
 
@@ -38,25 +41,10 @@ namespace MonthlyLifeguardRegister.ControllersLogic.Authentication
                                              out userFullDetails) == true)
             {// credentials validated, log them in
 
-                /*
-                // set the cookie to expire in 30 days
-                DateTime cookieExpireDate = DateTime.Now.AddDays(30);
-                DateTimeOffset DateCookieExpires = new DateTimeOffset(DateTime.SpecifyKind(cookieExpireDate, DateTimeKind.Unspecified));
-
-  
-
-                // create the jwt string
-                JsonWebToken jsonWebToken = new JsonWebToken(appSettings.jwtsecretKey);
-                loginResponseData._jwt = jsonWebToken.createUserJWT(1, userFullDetails.firstName, userFullDetails.surname, DateCookieExpires.DateTime);
-                loginResponseData._isLoggedIn = true;
-
-                // create the cookie
-                Cookies cookies = new Cookies(appSettings.DomainName);
-                cookies.CreateCookie(httpResponse, Cookies.ClientCookieName, loginResponseData._jwt, DateCookieExpires);
-                */
                 // create the jwt and set the cookie to send back to the user
                 loginResponseData._jwt = this.createJwtAndSetCookie(userFullDetails, appSettings, httpResponse);
                 loginResponseData._isLoggedIn = true;
+                
 
 
             }
