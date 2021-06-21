@@ -36,7 +36,7 @@ namespace MonthlyLifeguardRegister.Classess.Security
             dbSQLiteUser dbUser;
 
             // create a unix time stamp from the passed in date and then convert it to a sha256 hash string
-            password = this.hashString(this.createUnixTimeStampFromDate(year, month, day).ToString());
+            password = this.HashString(this.CreateUnixTimeStampFromDate(year, month, day).ToString());
             
             // create a database connection and open it
             sqlCon = new SqLiteConnection();
@@ -64,7 +64,7 @@ namespace MonthlyLifeguardRegister.Classess.Security
         /// <param name="month">Month part of date</param>
         /// <param name="day">Day part of date</param>
         /// <returns>Date represted as a unix time stamp</returns>
-        private long createUnixTimeStampFromDate(int year, int month, int day)
+        private long CreateUnixTimeStampFromDate(int year, int month, int day)
         {
 
             // set the culture to uk
@@ -88,7 +88,7 @@ namespace MonthlyLifeguardRegister.Classess.Security
         /// </summary>
         /// <param name="textToHash">the string to be hashed</param>
         /// <returns>the hashed string in lower case</returns>
-        private string hashString(string textToHash)
+        private string HashString(string textToHash)
         {
             //convert the text to a byte array
             byte[] textByteData = System.Text.Encoding.UTF8.GetBytes(textToHash);
