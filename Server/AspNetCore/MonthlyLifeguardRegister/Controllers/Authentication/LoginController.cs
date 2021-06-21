@@ -21,7 +21,7 @@ namespace MonthlyLifeguardRegister.Controllers.Authentication
     /// </summary>
     [ApiController]
     [Route("API/Authentication/Login.php")]
-    public class LoginController : Controller
+    public class LoginController : ControllerBase
     {
         public LoginController(IOptions<AppSettings> appSettings)
         {
