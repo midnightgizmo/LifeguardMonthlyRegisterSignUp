@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using MonthlyLifeguardRegister.Attributes;
 using MonthlyLifeguardRegister.Classess.Database.Training;
@@ -17,7 +17,7 @@ namespace MonthlyLifeguardRegister.Controllers.Training
     /// </summary>
     [ApiController]
     [Route("API/Training/TrainingRegister")]
-    public class RegistersController : Controller
+    public class RegistersController : ControllerBase
     {
         public RegistersController(IOptions<AppSettings> appSettings)
         {
