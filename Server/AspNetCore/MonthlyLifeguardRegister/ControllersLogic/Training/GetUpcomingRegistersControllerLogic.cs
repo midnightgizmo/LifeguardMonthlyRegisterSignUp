@@ -22,7 +22,7 @@ namespace MonthlyLifeguardRegister.ControllersLogic.Training
             SqLiteConnection sqlCon;
             dbSQLiteTrainingRegister dbTrainingRegister;
             // create a date that will be the first of the current month
-            DateTime dateAtStartOfMonth = this.createDateAtBeginingOfMonth();
+            DateTime dateAtStartOfMonth = this.CreateDateAtBeginingOfMonth();
             // create a date six months on from the above date
             DateTime dateInSixMonthsTime = dateAtStartOfMonth.AddMonths(6);
             List<TrainingRegister> listOfTrainingRegisters = new List<TrainingRegister>();
@@ -33,7 +33,7 @@ namespace MonthlyLifeguardRegister.ControllersLogic.Training
 
             dbTrainingRegister = new dbSQLiteTrainingRegister(sqlCon);
             // get all registers between the start of the month and six months on from now
-            listOfTrainingRegisters = dbTrainingRegister.select_dateTimeWhenRegisterIsActive_Between(this.convertToUnixTimeStamp(dateAtStartOfMonth),this.convertToUnixTimeStamp(dateInSixMonthsTime));
+            listOfTrainingRegisters = dbTrainingRegister.select_dateTimeWhenRegisterIsActive_Between(this.ConvertToUnixTimeStamp(dateAtStartOfMonth),this.ConvertToUnixTimeStamp(dateInSixMonthsTime));
             // close the sqlite connection
             sqlCon.CloseConnection();
 
@@ -44,7 +44,7 @@ namespace MonthlyLifeguardRegister.ControllersLogic.Training
         /// Creates a DateTime that is set to the first day of current year/month
         /// </summary>
         /// <returns>DateTime set to first day of month</returns>
-        private DateTime createDateAtBeginingOfMonth()
+        private DateTime CreateDateAtBeginingOfMonth()
         {
             DateTime now = DateTime.Now;
             DateTime startOfMonth = new DateTime(now.Year, now.Month, 1);
@@ -59,7 +59,7 @@ namespace MonthlyLifeguardRegister.ControllersLogic.Training
         /// </summary>
         /// <param name="date">Date to be converted</param>
         /// <returns></returns>
-        private long convertToUnixTimeStamp(DateTime date)
+        private long ConvertToUnixTimeStamp(DateTime date)
         {
             return ((DateTimeOffset)date).ToUnixTimeSeconds();
         }
