@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using MonthlyLifeguardRegister.Attributes;
 using MonthlyLifeguardRegister.Classess.Database.Training;
@@ -39,6 +39,19 @@ namespace MonthlyLifeguardRegister.Controllers.Training
             GetUpcomingRegistersControllerLogic getUpcomingRegistersControllerLogic = new GetUpcomingRegistersControllerLogic();
             
             return getUpcomingRegistersControllerLogic.GetUpcomingRegisters_CreateLoginResponse(this.AppSettings);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [Route("getAllRegistersInMonth.php")]
+        [Produces("application/json")]
+        public List<TrainingRegister> GetAllRegistersInMonth([FromForm]int year, [FromForm]int month)
+        {
+            GetAllRegistersInMonthControllerLogic getAllRegistersInMonthControllerLogic;
+
+            getAllRegistersInMonthControllerLogic = new GetAllRegistersInMonthControllerLogic();
+            
+            return getAllRegistersInMonthControllerLogic.GetAllRegistersInMonth_CreateLoginResponse(this.AppSettings, year, month++);
         }
     }
 }
