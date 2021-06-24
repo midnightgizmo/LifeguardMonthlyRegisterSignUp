@@ -446,7 +446,7 @@ namespace MonthlyLifeguardRegister.Classess.Database.User
             if(NumRowsEffected > 0)
             {
                 // get the id of the just created row
-                int lastInsertID = this._con.get_last_insert_id();
+                int lastInsertID = this._con.Get_Last_Insert_Id();
                 // get the users details for the user that was just created
                 userFullDetails = this.Select(lastInsertID);
             }

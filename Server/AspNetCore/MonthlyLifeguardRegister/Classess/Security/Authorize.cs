@@ -40,7 +40,7 @@ namespace MonthlyLifeguardRegister.Classess.Security
             
             // create a database connection and open it
             sqlCon = new SqLiteConnection();
-            sqlCon.openConnection(this._AppSettings.sqlConectionStringLocation);
+            sqlCon.OpenConnection(this._AppSettings.sqlConectionStringLocation);
 
             // try and find the users surname and password in the database
             dbUser = new dbSQLiteUser(sqlCon);

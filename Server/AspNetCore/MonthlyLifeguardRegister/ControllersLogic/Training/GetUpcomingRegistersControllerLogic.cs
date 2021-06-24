@@ -29,11 +29,11 @@ namespace MonthlyLifeguardRegister.ControllersLogic.Training
 
             // create a database connection and open it
             sqlCon = new SqLiteConnection();
-            sqlCon.openConnection(appSettings.sqlConectionStringLocation);
+            sqlCon.OpenConnection(appSettings.sqlConectionStringLocation);
 
             dbTrainingRegister = new dbSQLiteTrainingRegister(sqlCon);
             // get all registers between the start of the month and six months on from now
-            listOfTrainingRegisters = dbTrainingRegister.select_dateTimeWhenRegisterIsActive_Between(this.ConvertToUnixTimeStamp(dateAtStartOfMonth),this.ConvertToUnixTimeStamp(dateInSixMonthsTime));
+            listOfTrainingRegisters = dbTrainingRegister.Select_DateTimeWhenRegisterIsActive_Between(this.ConvertToUnixTimeStamp(dateAtStartOfMonth),this.ConvertToUnixTimeStamp(dateInSixMonthsTime));
             // close the sqlite connection
             sqlCon.CloseConnection();
 

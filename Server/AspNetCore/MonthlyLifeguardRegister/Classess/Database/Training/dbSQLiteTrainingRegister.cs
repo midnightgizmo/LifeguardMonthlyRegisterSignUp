@@ -39,7 +39,7 @@ namespace MonthlyLifeguardRegister.Classess.Database.Training
         /// </summary>
         /// <param name="ID">the id of te TrainingRegister to look for</param>
         /// <returns>an instance of TrainingRegister with data retreeved from database, or null if could not be found</returns>
-        public TrainingRegister select(int ID)
+        public TrainingRegister Select(int ID)
         {
             // holds the data we will get from the database
             TrainingRegister trainingRegister = null;
@@ -84,7 +84,7 @@ namespace MonthlyLifeguardRegister.Classess.Database.Training
         /// selects all rows from the TrainingRegister table in the database and returns them as an array of TrainingRegister
         /// </summary>
         /// <returns>list of all TrainingRegister in database</returns>
-        public List<TrainingRegister> selectAll()
+        public List<TrainingRegister> SelectAll()
         {
             // an array of TrainingRegister classes
             List<TrainingRegister> TrainingRegisterArray = new List<TrainingRegister>();
@@ -121,7 +121,7 @@ namespace MonthlyLifeguardRegister.Classess.Database.Training
         /// <param name="from">Unix Time, the number of seconds since 1970-01-01 00:00:00 UTC.</param>
         /// <param name="to">Unix Time, the number of seconds since 1970-01-01 00:00:00 UTC.</param>
         /// <returns>list of all TrainingRegister in database that match the query</returns>
-        public List<TrainingRegister> select_dateTimeOfTraining_Between(long from, long to)
+        public List<TrainingRegister> Select_DateTimeOfTraining_Between(long from, long to)
         {
             List<TrainingRegister> TrainingRegisterArray = new List<TrainingRegister>();
             StringBuilder sb = new StringBuilder();
@@ -133,7 +133,7 @@ namespace MonthlyLifeguardRegister.Classess.Database.Training
             sb.Append("ORDER BY DateTimeOfTraining;");
 
             // executes the database query and returns a a list of Models.Training.TraingRegister
-            return this.executeSelectBetweenQuery(sb.ToString(), to, from);
+            return this.ExecuteSelectBetweenQuery(sb.ToString(), to, from);
 
         }
 
@@ -145,7 +145,7 @@ namespace MonthlyLifeguardRegister.Classess.Database.Training
         /// <param name="from">Unix Time, the number of seconds since 1970-01-01 00:00:00 UTC.</param>
         /// <param name="to">Unix Time, the number of seconds since 1970-01-01 00:00:00 UTC.</param>
         /// <returns>list of all TrainingRegister in database that match the query</returns>
-        public List<TrainingRegister> select_dateTimeWhenRegisterIsActive_Between(long from, long to)
+        public List<TrainingRegister> Select_DateTimeWhenRegisterIsActive_Between(long from, long to)
         {
             List<TrainingRegister> TrainingRegisterArray = new List<TrainingRegister>();
             StringBuilder sb = new StringBuilder();
@@ -157,7 +157,7 @@ namespace MonthlyLifeguardRegister.Classess.Database.Training
 
 
             // executes the database query and returns a a list of Models.Training.TraingRegister
-            return this.executeSelectBetweenQuery(sb.ToString(), to, from);
+            return this.ExecuteSelectBetweenQuery(sb.ToString(), to, from);
         }
 
 
@@ -168,7 +168,7 @@ namespace MonthlyLifeguardRegister.Classess.Database.Training
         /// <param name="from">Unix Time, the number of seconds since 1970-01-01 00:00:00 UTC.</param>
         /// <param name="to">Unix Time, the number of seconds since 1970-01-01 00:00:00 UTC.</param>
         /// <returns>list of all TrainingRegister in database that match the query</returns>
-        public List<TrainingRegister> select_dateTimeFromWhenRegisterCanBeUsed_Between(long from, long to)
+        public List<TrainingRegister> Select_DateTimeFromWhenRegisterCanBeUsed_Between(long from, long to)
         {
             List<TrainingRegister> TrainingRegisterArray = new List<TrainingRegister>();
             StringBuilder sb = new StringBuilder();
@@ -179,7 +179,7 @@ namespace MonthlyLifeguardRegister.Classess.Database.Training
 
 
             // executes the database query and returns a a list of Models.Training.TraingRegister
-            return this.executeSelectBetweenQuery(sb.ToString(), to, from);
+            return this.ExecuteSelectBetweenQuery(sb.ToString(), to, from);
         }
 
 
@@ -197,7 +197,7 @@ namespace MonthlyLifeguardRegister.Classess.Database.Training
         /// <param name="DateTimeFromWhenRegisterCanBeUsed"> unix time stamp</param>
         /// <param name="MaxNoCandidatesAllowed">Max numbe of candidates allowed on register</param>
         /// <returns>an instance of the newly created row or null if insert fails</returns>
-        public TrainingRegister insert(long DateTimeOfTraining, long DateTimeWhenRegisterIsActive, long DateTimeFromWhenRegisterCanBeUsed, int MaxNoCandidatesAllowed)
+        public TrainingRegister Insert(long DateTimeOfTraining, long DateTimeWhenRegisterIsActive, long DateTimeFromWhenRegisterCanBeUsed, int MaxNoCandidatesAllowed)
         {
             // holds the data we will get from the database
             TrainingRegister trainingRegister = null;
@@ -262,9 +262,9 @@ namespace MonthlyLifeguardRegister.Classess.Database.Training
             if (NumRowsEffected > 0)
             {
                 // get the id of the just created row
-                int lastInsertID = this._con.get_last_insert_id();
+                int lastInsertID = this._con.Get_Last_Insert_Id();
                 // get the details for the database that was just created
-                trainingRegister = this.select(lastInsertID);
+                trainingRegister = this.Select(lastInsertID);
             }
 
             // return the new inserted row, or null if it failed
@@ -290,7 +290,7 @@ namespace MonthlyLifeguardRegister.Classess.Database.Training
         /// <param name="DateTimeFromWhenRegisterCanBeUsed">unix time stamp</param>
         /// <param name="MaxNoCandidatesAllowed">Max numbe of candidates allowed on register</param>
         /// <returns>instance of the row that was just updated or null if update fails</returns>
-        public TrainingRegister update(int id, long DateTimeOfTraining, long DateTimeWhenRegisterIsActive, long DateTimeFromWhenRegisterCanBeUsed, int MaxNoCandidatesAllowed)
+        public TrainingRegister Update(int id, long DateTimeOfTraining, long DateTimeWhenRegisterIsActive, long DateTimeFromWhenRegisterCanBeUsed, int MaxNoCandidatesAllowed)
         {
             // holds the data we will get from the database
             TrainingRegister trainingRegister = null;
@@ -365,9 +365,9 @@ namespace MonthlyLifeguardRegister.Classess.Database.Training
             if (NumRowsEffected > 0)
             {
                 // get the id of the just created row
-                int lastInsertID = this._con.get_last_insert_id();
+                int lastInsertID = this._con.Get_Last_Insert_Id();
                 // get the details for the database that was just created
-                trainingRegister = this.select(lastInsertID);
+                trainingRegister = this.Select(lastInsertID);
             }
 
             // return the new inserted row, or null if it failed
@@ -384,7 +384,7 @@ namespace MonthlyLifeguardRegister.Classess.Database.Training
          * @param id the id of the row to be removed
          * @return bool true if sucsefull, else false
          */
-        public bool delete(int id)
+        public bool Delete(int id)
         {
             StringBuilder sb = new StringBuilder();
             
@@ -447,7 +447,7 @@ namespace MonthlyLifeguardRegister.Classess.Database.Training
          * @param from unix time stamp (number)
          * @return Models.Training.TrainingRegister list of all TrainingRegister in database that match the query
          */
-        private List<TrainingRegister> executeSelectBetweenQuery(string query, long to, long from)
+        private List<TrainingRegister> ExecuteSelectBetweenQuery(string query, long to, long from)
         {
             // an array of TrainingRegister classes
             List<TrainingRegister> TrainingRegisterArray = new List<TrainingRegister>();

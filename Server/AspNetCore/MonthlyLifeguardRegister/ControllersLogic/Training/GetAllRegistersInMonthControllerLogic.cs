@@ -37,7 +37,7 @@ namespace MonthlyLifeguardRegister.ControllersLogic.Training
 
             // create a database connection and open it
             sqlCon = new SqLiteConnection();
-            sqlCon.openConnection(appSettings.sqlConectionStringLocation);
+            sqlCon.OpenConnection(appSettings.sqlConectionStringLocation);
 
             
             // get all registers between the start of the month and the end of the month
@@ -104,7 +104,7 @@ namespace MonthlyLifeguardRegister.ControllersLogic.Training
 
             dbTrainingRegister = new dbSQLiteTrainingRegister(sqlCon);
             // get all registers between the start of the month and the end of the month
-            listOfTrainingRegisters = dbTrainingRegister.select_dateTimeOfTraining_Between(startDate, endDate);
+            listOfTrainingRegisters = dbTrainingRegister.Select_DateTimeOfTraining_Between(startDate, endDate);
 
             return listOfTrainingRegisters;
         }

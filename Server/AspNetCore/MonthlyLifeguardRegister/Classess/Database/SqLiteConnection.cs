@@ -14,7 +14,7 @@ namespace MonthlyLifeguardRegister.Classess.Database
         /// </summary>
         /// <param name="location">the physical path to the SQLite database file</param>
         /// <returns>true if sucsefull, else false</returns>
-        public bool openConnection(string location)
+        public bool OpenConnection(string location)
         {
             try
             {
@@ -113,7 +113,7 @@ namespace MonthlyLifeguardRegister.Classess.Database
             }
         }
 
-        public int get_last_insert_id()
+        public int Get_Last_Insert_Id()
         {
             SqliteCommand sqliteCommand;
 
