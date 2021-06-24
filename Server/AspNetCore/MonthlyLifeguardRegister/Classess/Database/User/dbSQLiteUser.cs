@@ -324,10 +324,10 @@ namespace MonthlyLifeguardRegister.Classess.Database.User
         /// </summary>
         /// <param name="regiserID">The register to get the users from</param>
         /// <returns>List of users that were found in the register</returns>
-        public List<UserFullDetails> SelectUsersInRegister(int regiserID)
+        public List<JwtUser> SelectUsersInRegister(int regiserID)
         {
             // will hold all users that match the query
-            List<UserFullDetails> usersList = new List<UserFullDetails>();
+            List<JwtUser> usersList = new List<JwtUser>();
 
             StringBuilder sb = new StringBuilder();
 
@@ -358,9 +358,11 @@ namespace MonthlyLifeguardRegister.Classess.Database.User
             // did we get any data from the database
             while (rdr.Read())
             {
-                UserFullDetails usersInfo;
-                // get the data from the row and add it to a Models.User class
-                usersInfo = this.GetRowData(rdr);
+                JwtUser usersInfo = new JwtUser();
+                // get the data from the row and add it to a Models.JwtUser class
+                usersInfo.id = rdr.GetInt32(0);
+                usersInfo.firstName = rdr.GetString(1);
+                usersInfo.surname = rdr.GetString(2);
 
                 usersList.Add(usersInfo);
             }
