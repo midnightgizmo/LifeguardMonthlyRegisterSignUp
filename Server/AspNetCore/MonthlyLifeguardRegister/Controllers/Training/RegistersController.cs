@@ -45,13 +45,13 @@ namespace MonthlyLifeguardRegister.Controllers.Training
         [Authorize]
         [Route("getAllRegistersInMonth.php")]
         [Produces("application/json")]
-        public List<TrainingRegister> GetAllRegistersInMonth([FromForm]int year, [FromForm]int month)
+        public List<TrainingRegisterWithUsers> GetAllRegistersInMonth([FromForm]int year, [FromForm]int month)
         {
             GetAllRegistersInMonthControllerLogic getAllRegistersInMonthControllerLogic;
 
             getAllRegistersInMonthControllerLogic = new GetAllRegistersInMonthControllerLogic();
             
-            return getAllRegistersInMonthControllerLogic.GetAllRegistersInMonth_CreateLoginResponse(this.AppSettings, year, month++);
+            return getAllRegistersInMonthControllerLogic.GetAllRegistersInMonth_CreateLoginResponse(this.AppSettings, year, ++month);
         }
     }
 }
