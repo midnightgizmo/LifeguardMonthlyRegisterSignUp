@@ -38,7 +38,7 @@ namespace MonthlyLifeguardRegister.Classess.Database.User
         /// </summary>
         /// <param name="id">the id of the User to look for</param>
         /// <returns>User an instance of User with data retreeved from database, or null if could not be found</returns>
-        public UserFullDetails select(int id)
+        public UserFullDetails Select(int id)
         {
             UserFullDetails userFullDetails = null;
 
@@ -69,7 +69,7 @@ namespace MonthlyLifeguardRegister.Classess.Database.User
         /// selects all rows from the User table in the database and returns them as an array of User
         /// </summary>
         /// <returns>list of all User in database</returns>
-        public List<UserFullDetails> selectAll()
+        public List<UserFullDetails> SelectAll()
         {
 
             // an array of User classes
@@ -105,7 +105,7 @@ namespace MonthlyLifeguardRegister.Classess.Database.User
         /// selects all rows from the User table in the database and returns them as an array of User
         /// </summary>
         /// <returns>list of all User in database</returns>
-        public List<UserFullDetails> selectAllActiveUsers()
+        public List<UserFullDetails> SelectAllActiveUsers()
         {
 
             // an array of User classes
@@ -144,7 +144,7 @@ namespace MonthlyLifeguardRegister.Classess.Database.User
         /// <param name="firstName">persons first name for who to look for</param>
         /// <param name="password">the hashed password to look for</param>
         /// <returns>user object if found or null if not</returns>
-        public UserFullDetails select_By_FirstNameAndPassword(string firstName, string password)
+        public UserFullDetails Select_By_FirstNameAndPassword(string firstName, string password)
         {
 
             // found user, or null
@@ -203,7 +203,7 @@ namespace MonthlyLifeguardRegister.Classess.Database.User
         /// <param name="surname">persons surname for who to look for</param>
         /// <param name="password">The hashed password to look for</param>
         /// <returns>user object if found or null if not</returns>
-        public UserFullDetails select_By_SurnameAndPassword(string surname, string password)
+        public UserFullDetails Select_By_SurnameAndPassword(string surname, string password)
         {
 
             // found user, or null
@@ -261,7 +261,7 @@ namespace MonthlyLifeguardRegister.Classess.Database.User
         /// <param name="firstName">users first name to look for</param>
         /// <param name="surname">users surname to look for</param>
         /// <returns>List of users that matched the input</returns>
-        public List<UserFullDetails> select_By_FirstNameAndSurname(string firstName, string surname)
+        public List<UserFullDetails> Select_By_FirstNameAndSurname(string firstName, string surname)
         {
 
             // will hold all users that match the query
@@ -324,7 +324,7 @@ namespace MonthlyLifeguardRegister.Classess.Database.User
         /// </summary>
         /// <param name="regiserID">The register to get the users from</param>
         /// <returns>List of users that were found in the register</returns>
-        public List<UserFullDetails> selectUsersInRegister(int regiserID)
+        public List<UserFullDetails> SelectUsersInRegister(int regiserID)
         {
             // will hold all users that match the query
             List<UserFullDetails> usersList = new List<UserFullDetails>();
@@ -383,7 +383,7 @@ namespace MonthlyLifeguardRegister.Classess.Database.User
         /// <param name="password">password hashed password</param>
         /// <param name="isUserActive">true is user is currently working, else false</param>
         /// <returns>an instance of the newly created User or null if insert fails</returns>
-        public UserFullDetails insert(string firstName, string surname, string password, bool isUserActive)
+        public UserFullDetails Insert(string firstName, string surname, string password, bool isUserActive)
         {
             UserFullDetails userFullDetails = null;
 
@@ -446,7 +446,7 @@ namespace MonthlyLifeguardRegister.Classess.Database.User
                 // get the id of the just created row
                 int lastInsertID = this._con.get_last_insert_id();
                 // get the users details for the user that was just created
-                userFullDetails = this.select(lastInsertID);
+                userFullDetails = this.Select(lastInsertID);
             }
 
             return userFullDetails;
@@ -467,7 +467,7 @@ namespace MonthlyLifeguardRegister.Classess.Database.User
         /// <param name="password">users password in a SHA-2 hash</param>
         /// <param name="isUserActive">Indicates if user is active. An incative user may not be able to log in</param>
         /// <returns>a new model containing the updated users details</returns>
-        public UserFullDetails updateAll(int id, string firstName, string surname, string password, bool isUserActive)
+        public UserFullDetails UpdateAll(int id, string firstName, string surname, string password, bool isUserActive)
         {
 
             UserFullDetails userFullDetails = null;
@@ -541,7 +541,7 @@ namespace MonthlyLifeguardRegister.Classess.Database.User
             if (NumRowsEffected > 0)
             {
                 // get the users details for the user that was just created
-                userFullDetails = this.select(id);
+                userFullDetails = this.Select(id);
             }
 
             return userFullDetails;
@@ -557,7 +557,7 @@ namespace MonthlyLifeguardRegister.Classess.Database.User
         /// <param name="surname">persons surname</param>
         /// <param name="isUserActive">Indicates if user is active. An incative user may not be able to log in</param>
         /// <returns>a new model containing the updated users details</returns>
-        public UserFullDetails updateDetails(int id, string firstName, string surname, bool isUserActive)
+        public UserFullDetails UpdateDetails(int id, string firstName, string surname, bool isUserActive)
         {
 
             UserFullDetails userFullDetails = null;
@@ -622,7 +622,7 @@ namespace MonthlyLifeguardRegister.Classess.Database.User
             if (NumRowsEffected > 0)
             {
                 // get the users details for the user that was just created
-                userFullDetails = this.select(id);
+                userFullDetails = this.Select(id);
             }
 
             return userFullDetails;
@@ -639,7 +639,7 @@ namespace MonthlyLifeguardRegister.Classess.Database.User
         /// <param name="id">the row to update</param>
         /// <param name="password">users password in a SHA-2 hash</param>
         /// <returns>a new model containing the updated users details</returns>
-        public UserFullDetails updatePassword(int id, string password)
+        public UserFullDetails UpdatePassword(int id, string password)
         {
             UserFullDetails userFullDetails = null;
 
@@ -684,7 +684,7 @@ namespace MonthlyLifeguardRegister.Classess.Database.User
             if (NumRowsEffected > 0)
             {
                 // get the users details for the user that was just created
-                userFullDetails = this.select(id);
+                userFullDetails = this.Select(id);
             }
 
             return userFullDetails;
@@ -705,7 +705,7 @@ namespace MonthlyLifeguardRegister.Classess.Database.User
         /// </summary>
         /// <param name="id">the id of the row to be removed</param>
         /// <returns>true if sucsefull, else false</returns>
-        public bool delete(int id)
+        public bool Delete(int id)
         {
             StringBuilder sb = new StringBuilder();
 

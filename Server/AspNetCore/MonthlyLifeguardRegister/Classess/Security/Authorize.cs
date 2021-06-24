@@ -44,7 +44,7 @@ namespace MonthlyLifeguardRegister.Classess.Security
 
             // try and find the users surname and password in the database
             dbUser = new dbSQLiteUser(sqlCon);
-            userFullDetails = dbUser.select_By_SurnameAndPassword(userName, password);
+            userFullDetails = dbUser.Select_By_SurnameAndPassword(userName, password);
 
             // close the database connection
             sqlCon.CloseConnection();
