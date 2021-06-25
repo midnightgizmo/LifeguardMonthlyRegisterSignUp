@@ -85,7 +85,7 @@ class dbSQLiteUsersInTrainingRegister
         // an array of UsersInTrainingRegister classes
         $UsersInTrainingRegisterArray = array();
 
-        $query  = "SELECT userId, trainingRegisterId;";
+        $query  = "SELECT userId, trainingRegisterId";
         $query .= "FROM " . $this->tableName . " ";
 
 
