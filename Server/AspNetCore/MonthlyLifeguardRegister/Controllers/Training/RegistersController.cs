@@ -75,5 +75,25 @@ namespace MonthlyLifeguardRegister.Controllers.Training
             // a black user with id set to -1 if user does not get added
             return addUserToRegisterControllerLogic.AddUserToRegister_CreateResponse(userMakingRequest, userID, registerID, this.AppSettings);
         }
+
+        [HttpPost]
+        [Authorize]
+        [Route("removeUserFromRegister.php")]
+        [Produces("application/json")]
+        public JwtUser RemoveUserFromRegister([FromForm] int userID, [FromForm] int registerID)
+        {
+            RemoveUserFromRegisterControllerLogic removeUserFromRegisterControllerLogic;
+            
+            // get the users details from the jwt cookie they sent along with the request
+            JwtUser userMakingRequest = (JwtUser)this.HttpContext.Items["User"];
+
+            removeUserFromRegisterControllerLogic = new RemoveUserFromRegisterControllerLogic();
+            
+            // Attempt to remove the user from the register. Will return the user that was removed
+            // or a blank user with id set to -1 if user was not added.
+            return removeUserFromRegisterControllerLogic.RemoveUserFromRegister_CreateResponse(userMakingRequest,userID, registerID, this.AppSettings);
+
+            
+        }
     }
 }
