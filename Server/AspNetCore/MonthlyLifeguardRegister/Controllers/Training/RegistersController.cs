@@ -5,6 +5,7 @@ using MonthlyLifeguardRegister.Classess.Database.Training;
 using MonthlyLifeguardRegister.ControllersLogic.Training;
 using MonthlyLifeguardRegister.Models;
 using MonthlyLifeguardRegister.Models.Training;
+using MonthlyLifeguardRegister.Models.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,6 +53,27 @@ namespace MonthlyLifeguardRegister.Controllers.Training
             getAllRegistersInMonthControllerLogic = new GetAllRegistersInMonthControllerLogic();
             
             return getAllRegistersInMonthControllerLogic.GetAllRegistersInMonth_CreateLoginResponse(this.AppSettings, year, ++month);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [Route("addUserToRegister.php")]
+        [Produces("application/json")]
+        public JwtUser AddUserToRegister([FromForm] int userID, [FromForm]int registerID)
+        {
+            
+
+            AddUserToRegisterControllerLogic addUserToRegisterControllerLogic;
+
+            // get the users details from the jwt cookie they sent along with the request
+            JwtUser userMakingRequest = (JwtUser)this.HttpContext.Items["User"];
+            
+
+
+            addUserToRegisterControllerLogic = new AddUserToRegisterControllerLogic();
+            // Attemt to add the user to the register. will return the user that was added or
+            // a black user with id set to -1 if user does not get added
+            return addUserToRegisterControllerLogic.AddUserToRegister_CreateResponse(userMakingRequest, userID, registerID, this.AppSettings);
         }
     }
 }
