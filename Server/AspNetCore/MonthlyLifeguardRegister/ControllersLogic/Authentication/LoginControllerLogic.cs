@@ -19,7 +19,7 @@ namespace MonthlyLifeguardRegister.ControllersLogic.Authentication
         /// <param name="appSettings">appsettings.json file content</param>
         /// <param name="httpResponse">used to create a cookie to send back to the user</param>
         /// <returns>The response message to send back to the client to let them know if authentication was sucsefull</returns>
-        public LoginAuthentication authenticate_CreateLoginResponse(LoginRequest loginData, AppSettings appSettings, HttpResponse httpResponse)
+        public LoginAuthentication Authenticate_CreateLoginResponse(LoginRequest loginData, AppSettings appSettings, HttpResponse httpResponse)
         {
             // JWT
             // https://jasonwatmore.com/post/2021/04/30/net-5-jwt-authentication-tutorial-with-example-api

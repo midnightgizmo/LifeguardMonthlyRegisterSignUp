@@ -40,7 +40,7 @@ namespace MonthlyLifeguardRegister.Controllers.Authentication
         /// <returns></returns>
         [HttpPost]
         [Produces("application/json")]
-        public LoginAuthentication authenticate([FromForm] LoginRequest loginData)
+        public LoginAuthentication Authenticate([FromForm] LoginRequest loginData)
         {
             // the response message to send back to the client
             LoginAuthentication loginResponseData;
@@ -48,7 +48,7 @@ namespace MonthlyLifeguardRegister.Controllers.Authentication
             LoginControllerLogic loginControllerLogic = new LoginControllerLogic();
             
             // check the login details to see if they are correct. if they are create a jwt cookie to send back to the user
-            loginResponseData = loginControllerLogic.authenticate_CreateLoginResponse(loginData, this.AppSettings, this.HttpContext.Response);
+            loginResponseData = loginControllerLogic.Authenticate_CreateLoginResponse(loginData, this.AppSettings, this.HttpContext.Response);
             
             // the response we will send back to the client to let them know if they have sucsefully logged in or not
             return loginResponseData;
