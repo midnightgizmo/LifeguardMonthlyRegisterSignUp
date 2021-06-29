@@ -1,4 +1,5 @@
 ﻿using MonthlyLifeguardRegister.Classess.Database;
+using MonthlyLifeguardRegister.Classess.Database.Admin;
 using MonthlyLifeguardRegister.Classess.Database.User;
 using MonthlyLifeguardRegister.Models;
 using MonthlyLifeguardRegister.Models.User;
@@ -112,7 +113,46 @@ namespace MonthlyLifeguardRegister.Classess.Security
         /// <returns>True if correct, else False</returns>
         public bool AuthorizeAdminUser(string userName, string password)
         {
-            return false;
+
+            // convert password to hash
+            string passwordAsHash;
+            UserCredentials userCredentials;
+
+            // get the admin username and password from the database
+            userCredentials = this.GetAdminCredentialsFromDatabase();
+            // hash the password the user sent to us so we can compare it to the one in the database
+            passwordAsHash = this.HashString(password.ToLower());
+
+            // compare the credetionals the user sent against the ones in the database
+            if (userName.ToLower() == userCredentials.UserName.ToLower() &&
+                passwordAsHash.ToLower() == userCredentials.Password)
+                return true;
+            else
+                return false;
+
+
+        }
+
+
+        /// <summary>
+        /// Gets admin username and password from the database
+        /// </summary>
+        /// <param name="connectionString">Sql connection string to connect to the database</param>
+        /// <returns>Admin credentials</returns>
+        private UserCredentials GetAdminCredentialsFromDatabase()
+        {
+            UserCredentials userCredentials;
+            SqLiteConnection sqlCon = new SqLiteConnection();
+
+            sqlCon.OpenConnection(this._AppSettings.sqlConectionStringLocation);
+            dbSQLiteAdmin dbAdmin = new dbSQLiteAdmin(sqlCon);
+
+            userCredentials = dbAdmin.SelectUsernameAndPassword();
+
+            sqlCon.CloseConnection();
+
+            // return userCredentials or null if failed
+            return userCredentials;
         }
     }
 }
