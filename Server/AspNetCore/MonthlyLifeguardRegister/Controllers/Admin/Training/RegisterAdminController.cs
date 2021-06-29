@@ -45,9 +45,18 @@ namespace MonthlyLifeguardRegister.Controllers.Admin.Training
             AdminGetAllRegisterBetweenControllerLogic adminGetAllRegisterBetweenControllerLogic;
             adminGetAllRegisterBetweenControllerLogic = new AdminGetAllRegisterBetweenControllerLogic();
 
-            return adminGetAllRegisterBetweenControllerLogic.GetAllRegistersBetween_CreateLoginResponse(startDateDay, startDateMonth, startDateYear,
+            return adminGetAllRegisterBetweenControllerLogic.GetAllRegistersBetween_CreateResponse(startDateDay, startDateMonth, startDateYear,
                                                                                                         endDateDay, endDateMonth, endDateYear, this.AppSettings);
             
+        }
+
+        [Authorize(AuthorizationType = AuthorizeType.Admin)]
+        [HttpPost]
+        [Route("deleteRegister.php")]
+        [Produces("application/json")]
+        public bool DeleteRegister([FromForm] int registerID)
+        {
+
         }
     }
 }
