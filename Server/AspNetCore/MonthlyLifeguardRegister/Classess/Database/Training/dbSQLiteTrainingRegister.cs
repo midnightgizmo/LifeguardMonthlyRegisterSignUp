@@ -396,7 +396,7 @@ namespace MonthlyLifeguardRegister.Classess.Database.Training
             SqliteParameter aParameter;
 
             aParameter = new SqliteParameter();
-            aParameter.ParameterName = ":DateTimeOfTraining";
+            aParameter.ParameterName = ":id";
             aParameter.Value = id;
             aParameter.DbType = System.Data.DbType.Int32;
 
