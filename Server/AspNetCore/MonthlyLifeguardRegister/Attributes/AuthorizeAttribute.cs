@@ -18,17 +18,45 @@ namespace MonthlyLifeguardRegister.Attributes
     public class AuthorizeAttribute : Attribute, IAuthorizationFilter
     {
         /// <summary>
+        /// The type of Authorization the attribute is looking for (defaults to NormalUser)
+        /// </summary>
+        public AuthorizeType AuthorizationType = AuthorizeType.NormalUser;
+        /// <summary>
         /// Check if user is Authorized by looking for the "user" in the HttpContent.Items
         /// </summary>
         /// <param name="context">Used to check if User exists in the HttpContext.Items</param>
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            JwtUser user = (JwtUser)context.HttpContext.Items["User"];
-            if (user == null)
+            switch (this.AuthorizationType)
             {
-                // not logged in
-                context.Result = new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status403Forbidden };
+                case AuthorizeType.NormalUser:
+                    JwtUser user = (JwtUser)context.HttpContext.Items["User"];
+                    if (user == null)
+                    {
+                        // not logged in as normal user
+                        context.Result = new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status403Forbidden };
+                    }
+                    break;
+
+                case AuthorizeType.Admin:
+                    object IsAdmin = context.HttpContext.Items["Admin"];
+                    if(IsAdmin == null)
+                    {
+                        // not logged in as normal user
+                        context.Result = new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status403Forbidden };
+                    }
+                    break;
             }
+            
         }
+    }
+
+    /// <summary>
+    /// The types of user access that are avalable
+    /// </summary>
+    public enum AuthorizeType
+    {
+        NormalUser,
+        Admin
     }
 }
