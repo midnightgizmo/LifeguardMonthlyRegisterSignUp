@@ -30,27 +30,40 @@ namespace MonthlyLifeguardRegister.Middleware
 
         public async Task Invoke(HttpContext httpContext)
         {
+            // check to see if the user has normal user access
+            // (they have sent the normal user cookie with its value set to jwt)
+            this.CheckIfNormalUserAuthorisation(httpContext);
+
+            // check to see if the user has admin access.
+            // (theyu have sent the admin user cookie with its value set to jwt)
+            this.CheckIfAdminUserAuthorisation(httpContext);
+            
+            await _next(httpContext);
+        }
+
+        /// <summary>
+        /// Looks to see if the normal user cookie exists. Then checks its value to see if its a valid
+        /// json web token. If checks out, will create an "User" item on httpContext.Items to indicate
+        /// user has normal user access
+        /// </summary>
+        /// <param name="httpContext"></param>
+        private void CheckIfNormalUserAuthorisation(HttpContext httpContext)
+        {
             // try and find the cookie that would say the user is logged in
             string? cookieValue = httpContext.Request.Cookies[Cookies.ClientCookieName];
 
             // cookie does not exist so user is not logged in.
             if (cookieValue == null)
-            {
-                await _next(httpContext);
                 return;
-            }
 
             // validate the cookie and get the data stored in it
             JsonWebToken jsonWebToken = new JsonWebToken(this.AppSettings.jwtsecretKey);
             JwtUser userInfo = jsonWebToken.getClientDataFromJwt(cookieValue);
 
             // if its an invalid jwt
-            if(userInfo == null)
-            {// should we delete the cookie?
+            if (userInfo == null)
+                return;// should we delete the cookie?
 
-                await _next(httpContext);
-                return;
-            }
 
             // cookie has passed validation, user has a good jwt cookie
             // create an item called User and set the userInfo as its value.
@@ -58,8 +71,39 @@ namespace MonthlyLifeguardRegister.Middleware
             // if teh user item does not exist, it means the user is not logged in.
             httpContext.Items["User"] = userInfo;
 
-            await _next(httpContext);
+            
         }
+
+        /// <summary>
+        /// Looks to see if the admin cookie exists. Then checks its value to see if its a valid
+        /// json web token. If checks out, will create an "admin" item on httpContext.Items to indicate
+        /// user has admin access
+        /// </summary>
+        /// <param name="httpContext"></param>
+        private void CheckIfAdminUserAuthorisation(HttpContext httpContext)
+        {
+            // try and find the cookie that would say the user is logged in
+            string? cookieValue = httpContext.Request.Cookies[Cookies.AdminCookieName];
+
+            // cookie does not exist so user is not logged in.
+            if (cookieValue == null)
+                return;
+            
+
+            // validate the cookie and get the data stored in it
+            JsonWebToken jsonWebToken = new JsonWebToken(this.AppSettings.jwtsecretKey);
+            // check if its an invalid jwt
+            if (jsonWebToken.isJwtValid(cookieValue) == false)
+                return; // should we now delete the cookie?
+
+            
+
+            // cookie has passed validation, user has a good admin jwt cookie
+            // create an item called Admin. if the Admin item exists it means user is logged in as an admin
+            httpContext.Items["Admin"] = true;
+        }
+
+        
     }
 
     // Extension method used to add the middleware to the HTTP request pipeline.
