@@ -56,7 +56,10 @@ namespace MonthlyLifeguardRegister.Controllers.Admin.Training
         [Produces("application/json")]
         public bool DeleteRegister([FromForm] int registerID)
         {
+            AdminDeleteRegisterControllerLogic adminDeleteRegisterControllerLogic;
+            adminDeleteRegisterControllerLogic = new AdminDeleteRegisterControllerLogic();
 
+            return adminDeleteRegisterControllerLogic.DeleteRegister_CreateResponse(registerID, this.AppSettings);
         }
     }
 }
