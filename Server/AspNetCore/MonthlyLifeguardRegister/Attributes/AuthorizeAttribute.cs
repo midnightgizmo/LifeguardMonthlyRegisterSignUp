@@ -27,25 +27,27 @@ namespace MonthlyLifeguardRegister.Attributes
         /// <param name="context">Used to check if User exists in the HttpContext.Items</param>
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            switch (this.AuthorizationType)
-            {
-                case AuthorizeType.NormalUser:
-                    JwtUser user = (JwtUser)context.HttpContext.Items["User"];
-                    if (user == null)
-                    {
-                        // not logged in as normal user
-                        context.Result = new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status403Forbidden };
-                    }
-                    break;
+            bool isNormalUserSet = (this.AuthorizationType & AuthorizeType.NormalUser) == AuthorizeType.NormalUser;
+            bool isAdminUserSet = (this.AuthorizationType & AuthorizeType.Admin) == AuthorizeType.Admin;
 
-                case AuthorizeType.Admin:
-                    object IsAdmin = context.HttpContext.Items["Admin"];
-                    if(IsAdmin == null)
-                    {
-                        // not logged in as normal user
-                        context.Result = new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status403Forbidden };
-                    }
-                    break;
+            if(isNormalUserSet)
+            {
+                JwtUser user = (JwtUser)context.HttpContext.Items["User"];
+                if (user == null)
+                {
+                    // not logged in as normal user
+                    context.Result = new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status403Forbidden };
+                }
+            }
+
+            if(isAdminUserSet)
+            {
+                object IsAdmin = context.HttpContext.Items["Admin"];
+                if (IsAdmin == null)
+                {
+                    // not logged in as normal user
+                    context.Result = new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status403Forbidden };
+                }
             }
             
         }
@@ -54,9 +56,10 @@ namespace MonthlyLifeguardRegister.Attributes
     /// <summary>
     /// The types of user access that are avalable
     /// </summary>
+    [Flags]
     public enum AuthorizeType
     {
-        NormalUser,
-        Admin
+        NormalUser = 1, // next number is double this number (2)
+        Admin = 2 // next number is double this number (4)
     }
 }
