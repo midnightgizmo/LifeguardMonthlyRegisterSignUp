@@ -43,7 +43,7 @@ namespace MonthlyLifeguardRegister.Controllers.Training
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(AuthorizationType = AuthorizeType.Admin | AuthorizeType.NormalUser)]
         [Route("getAllRegistersInMonth.php")]
         [Produces("application/json")]
         public List<TrainingRegisterWithUsers> GetAllRegistersInMonth([FromForm]int year, [FromForm]int month)
