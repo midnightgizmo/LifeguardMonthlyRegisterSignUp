@@ -26,7 +26,7 @@ namespace MonthlyLifeguardRegister.Controllers.Admin.Training
         /// </summary>
         public AppSettings AppSettings { get; }
         /// <summary>
-        /// 
+        /// gets a list of all registers between the selected dates
         /// </summary>
         /// <param name="startDateDay"></param>
         /// <param name="startDateMonth">Value between 1 and 12</param>
@@ -50,6 +50,11 @@ namespace MonthlyLifeguardRegister.Controllers.Admin.Training
             
         }
 
+        /// <summary>
+        /// Delete the register matching the registerID from the database. Also removes any user who were in the register
+        /// </summary>
+        /// <param name="registerID"></param>
+        /// <returns></returns>
         [Authorize(AuthorizationType = AuthorizeType.Admin)]
         [HttpPost]
         [Route("deleteRegister.php")]
@@ -60,6 +65,24 @@ namespace MonthlyLifeguardRegister.Controllers.Admin.Training
             adminDeleteRegisterControllerLogic = new AdminDeleteRegisterControllerLogic();
 
             return adminDeleteRegisterControllerLogic.DeleteRegister_CreateResponse(registerID, this.AppSettings);
+        }
+
+
+        /// <summary>
+        /// Returns the register that matches the passed in registerID. Returns blank register with id set to -1 if not found
+        /// </summary>
+        /// <param name="registerID"></param>
+        /// <returns></returns>
+        [Authorize(AuthorizationType = AuthorizeType.Admin)]
+        [HttpPost]
+        [Route("getRegister.php")]
+        [Produces("application/json")]
+        public TrainingRegister GetRegister([FromForm] int registerID)
+        {
+            AdminGetRegisterControllerLogic adminGetRegisterControllerLogic;
+            adminGetRegisterControllerLogic = new AdminGetRegisterControllerLogic();
+
+            return adminGetRegisterControllerLogic.GetRegister_CreateResponse(registerID, this.AppSettings);
         }
     }
 }
