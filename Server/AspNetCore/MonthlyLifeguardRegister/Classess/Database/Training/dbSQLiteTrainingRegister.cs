@@ -364,10 +364,8 @@ namespace MonthlyLifeguardRegister.Classess.Database.Training
             // if greater than zero the row was inserted
             if (NumRowsEffected > 0)
             {
-                // get the id of the just created row
-                int lastInsertID = this._con.Get_Last_Insert_Id();
                 // get the details for the database that was just created
-                trainingRegister = this.Select(lastInsertID);
+                trainingRegister = this.Select(id);
             }
 
             // return the new inserted row, or null if it failed
