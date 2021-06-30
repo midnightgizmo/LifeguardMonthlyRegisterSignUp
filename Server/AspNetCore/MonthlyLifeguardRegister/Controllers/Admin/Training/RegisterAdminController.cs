@@ -84,5 +84,28 @@ namespace MonthlyLifeguardRegister.Controllers.Admin.Training
 
             return adminGetRegisterControllerLogic.GetRegister_CreateResponse(registerID, this.AppSettings);
         }
+
+        /// <summary>
+        /// Updates the specified register with the new values and returns true or false to indicate if it worked
+        /// </summary>
+        /// <param name="registerID">the register to update</param>
+        /// <param name="dateOfTraining">format should be "yyyy-MM-dd HH:mm"</param>
+        /// <param name="dateWhenUserCanSeeRegister">format should be "yyyy-MM-dd HH:mm"</param>
+        /// <param name="dateWhenUserCanJoinRegister">format should be "yyyy-MM-dd HH:mm"</param>
+        /// <param name="maxNumberOfCandidatesAllowedOnRegister"></param>
+        /// <returns>returns true if sucsefull, else false</returns>
+        [Authorize(AuthorizationType = AuthorizeType.Admin)]
+        [HttpPost]
+        [Route("updateRegister.php")]
+        [Produces("application/json")]
+        public bool UpdateRegister([FromForm] int registerID, [FromForm] string dateOfTraining, 
+                                   [FromForm] string dateWhenUserCanSeeRegister, [FromForm] string dateWhenUserCanJoinRegister, 
+                                   [FromForm] int maxNumberOfCandidatesAllowedOnRegister)
+        {
+            AdminUpdateRegisterControllerLogic adminUpdateRegisterControllerLogic;
+
+            adminUpdateRegisterControllerLogic = new AdminUpdateRegisterControllerLogic();
+            return adminUpdateRegisterControllerLogic.UpdateRegister_CreateResponse(registerID, dateOfTraining, dateWhenUserCanSeeRegister, dateWhenUserCanJoinRegister, maxNumberOfCandidatesAllowedOnRegister, this.AppSettings);
+        }
     }
 }
