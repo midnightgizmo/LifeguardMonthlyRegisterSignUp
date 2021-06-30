@@ -23,7 +23,7 @@ namespace MonthlyLifeguardRegister.ControllersLogic.Admin.Training
         /// <param name="endDateYear"></param>
         /// <param name="appSettings"></param>
         /// <returns>List of training registers</returns>
-        public List<TrainingRegister> GetAllRegistersBetween_CreateLoginResponse(int startDateDay, int startDateMonth, int startDateYear,
+        public List<TrainingRegister> GetAllRegistersBetween_CreateResponse(int startDateDay, int startDateMonth, int startDateYear,
                                                                int endDateDay, int endDateMonth, int endDateYear,
                                                                AppSettings appSettings)
         {
