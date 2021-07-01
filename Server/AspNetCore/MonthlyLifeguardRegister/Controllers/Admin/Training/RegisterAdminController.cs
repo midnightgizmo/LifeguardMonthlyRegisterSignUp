@@ -107,5 +107,24 @@ namespace MonthlyLifeguardRegister.Controllers.Admin.Training
             adminUpdateRegisterControllerLogic = new AdminUpdateRegisterControllerLogic();
             return adminUpdateRegisterControllerLogic.UpdateRegister_CreateResponse(registerID, dateOfTraining, dateWhenUserCanSeeRegister, dateWhenUserCanJoinRegister, maxNumberOfCandidatesAllowedOnRegister, this.AppSettings);
         }
+
+
+        /// <summary>
+        /// Adds the passed in user to the passed in register. returns true if was added sucsefully
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <param name="registerID"></param>
+        /// <returns></returns>
+        [Authorize(AuthorizationType = AuthorizeType.Admin)]
+        [HttpPost]
+        [Route("addUserToRegister.php")]
+        [Produces("application/json")]
+        public bool AddUserToRegister([FromForm] int userID, [FromForm] int registerID)
+        {
+            AdminAddUserToRegisterControllerLogic adminAddUserToRegisterControllerLogic;
+            
+            adminAddUserToRegisterControllerLogic = new AdminAddUserToRegisterControllerLogic();
+            return adminAddUserToRegisterControllerLogic.AddUserToRegister_CreateResponse(userID, registerID, this.AppSettings);
+        }
     }
 }
