@@ -43,5 +43,25 @@ namespace MonthlyLifeguardRegister.Controllers.Admin.Users
 
             return adminGetAllActiveUsersControllerLogic.GetAllActiveUsers_CreateResponse(this.AppSettings);
         }
+
+
+        /// <summary>
+        /// Gets a list of all users in the database
+        /// </summary>
+        /// <returns></returns>
+        [Authorize(AuthorizationType = AuthorizeType.Admin)]
+        [HttpGet]
+        [Route("getAllUsers.php")]
+        [Produces("application/json")]
+        public List<UserFullDetails> GetAllUsers()
+        {
+            AdminGetAllUsersControllerLogic adminGetAllUsersControllerLogic;
+
+            adminGetAllUsersControllerLogic = new AdminGetAllUsersControllerLogic();
+            return adminGetAllUsersControllerLogic.GetAllUsers_CreateResponse(this.AppSettings);
+        }
+
+
+
     }
 }
