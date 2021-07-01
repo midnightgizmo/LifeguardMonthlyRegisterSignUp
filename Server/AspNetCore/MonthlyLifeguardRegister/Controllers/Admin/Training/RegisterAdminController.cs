@@ -126,5 +126,23 @@ namespace MonthlyLifeguardRegister.Controllers.Admin.Training
             adminAddUserToRegisterControllerLogic = new AdminAddUserToRegisterControllerLogic();
             return adminAddUserToRegisterControllerLogic.AddUserToRegister_CreateResponse(userID, registerID, this.AppSettings);
         }
+
+        /// <summary>
+        /// Removes the passed in user from the passed in register. returns true if was removed sucsefully
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <param name="registerID"></param>
+        /// <returns></returns>
+        [Authorize(AuthorizationType = AuthorizeType.Admin)]
+        [HttpPost]
+        [Route("removeUserFromRegister.php")]
+        [Produces("application/json")]
+        public bool RemoveUserFromRegister([FromForm] int userID, [FromForm] int registerID)
+        {
+            AdminRemoveUserFromRegister adminRemoveUserFromRegister;
+
+            adminRemoveUserFromRegister = new AdminRemoveUserFromRegister();
+            return adminRemoveUserFromRegister.RemoveUserFromRegister_CreateResponse(userID, registerID, this.AppSettings);
+        }
     }
 }
