@@ -37,7 +37,7 @@ namespace MonthlyLifeguardRegister.Classess.Security
             dbSQLiteUser dbUser;
 
             // create a unix time stamp from the passed in date and then convert it to a sha256 hash string
-            password = this.HashString(this.CreateUnixTimeStampFromDate(year, month, day).ToString());
+            password = Authorize.HashString(this.CreateUnixTimeStampFromDate(year, month, day).ToString());
             
             // create a database connection and open it
             sqlCon = new SqLiteConnection();
@@ -89,7 +89,7 @@ namespace MonthlyLifeguardRegister.Classess.Security
         /// </summary>
         /// <param name="textToHash">the string to be hashed</param>
         /// <returns>the hashed string in lower case</returns>
-        private string HashString(string textToHash)
+        public static string HashString(string textToHash)
         {
             //convert the text to a byte array
             byte[] textByteData = System.Text.Encoding.UTF8.GetBytes(textToHash);
@@ -121,7 +121,7 @@ namespace MonthlyLifeguardRegister.Classess.Security
             // get the admin username and password from the database
             userCredentials = this.GetAdminCredentialsFromDatabase();
             // hash the password the user sent to us so we can compare it to the one in the database
-            passwordAsHash = this.HashString(password.ToLower());
+            passwordAsHash = Authorize.HashString(password.ToLower());
 
             // compare the credetionals the user sent against the ones in the database
             if (userName.ToLower() == userCredentials.UserName.ToLower() &&
