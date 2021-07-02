@@ -122,7 +122,7 @@ namespace MonthlyLifeguardRegister.Classess.Database
 
             try
             {
-                return (int)sqliteCommand.ExecuteScalar();
+                return (int)(long)sqliteCommand.ExecuteScalar();
             }
             catch(Exception e)
             {
