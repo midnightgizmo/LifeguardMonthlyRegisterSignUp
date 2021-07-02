@@ -97,6 +97,23 @@ namespace MonthlyLifeguardRegister.Controllers.Admin.Users
 
         }
 
+        /// <summary>
+        /// Removes the user from the database. They will on longer be able to log in. Also removes them from all registers
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <returns></returns>
+        [Authorize(AuthorizationType = AuthorizeType.Admin)]
+        [HttpPost]
+        [Route("deleteUser.php")]
+        [Produces("application/json")]
+        public bool DeleteUser([FromForm]int userID)
+        {
+            AdminDeleteUserControllerLogic adminDeleteUserControllerLogic;
+
+            adminDeleteUserControllerLogic = new AdminDeleteUserControllerLogic();
+            return adminDeleteUserControllerLogic.DeleteUser_CreateResponse(userID, this.AppSettings);
+        }
+
 
 
     }
