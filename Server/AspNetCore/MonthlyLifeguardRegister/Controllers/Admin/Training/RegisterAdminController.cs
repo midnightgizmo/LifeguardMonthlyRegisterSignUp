@@ -144,5 +144,27 @@ namespace MonthlyLifeguardRegister.Controllers.Admin.Training
             adminRemoveUserFromRegister = new AdminRemoveUserFromRegister();
             return adminRemoveUserFromRegister.RemoveUserFromRegister_CreateResponse(userID, registerID, this.AppSettings);
         }
+
+        /// <summary>
+        /// Creates a new register. returns true if sucsefull
+        /// </summary>
+        /// <param name="dateOfTraining">Date format: yyyy-MM-dd HH:mm</param>
+        /// <param name="dateWhenUserCanSeeRegister">Date format: yyyy-MM-dd HH:mm</param>
+        /// <param name="dateWhenUserCanJoinRegister">Date format: yyyy-MM-dd HH:mm</param>
+        /// <param name="maxNumberOfCandidatesAllowedOnRegister">max number of people allowed on register before its full</param>
+        /// <returns>returns true if sucsefull, else false</returns>
+        [Authorize(AuthorizationType = AuthorizeType.Admin)]
+        [HttpPost]
+        [Route("createRegister.php")]
+        [Produces("application/json")]
+        public bool CreateNewRegister([FromForm] string dateOfTraining, [FromForm] string dateWhenUserCanSeeRegister, [FromForm] string dateWhenUserCanJoinRegister, [FromForm] int maxNumberOfCandidatesAllowedOnRegister)
+        {
+            AdminCreateNewRegisterControllerLogic adminCreateNewRegisterControllerLogic;
+
+            adminCreateNewRegisterControllerLogic = new AdminCreateNewRegisterControllerLogic();
+            return adminCreateNewRegisterControllerLogic.CreateNewRegister_CreateResponse(dateOfTraining, dateWhenUserCanSeeRegister, dateWhenUserCanJoinRegister, maxNumberOfCandidatesAllowedOnRegister, this.AppSettings);
+        }
+
+
     }
 }
