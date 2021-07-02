@@ -114,6 +114,26 @@ namespace MonthlyLifeguardRegister.Controllers.Admin.Users
             return adminDeleteUserControllerLogic.DeleteUser_CreateResponse(userID, this.AppSettings);
         }
 
+        /// <summary>
+        /// Creates a new user in the database and returns the details of the new created users. Returns null if anything goes wrong
+        /// </summary>
+        /// <param name="firstName"></param>
+        /// <param name="surname"></param>
+        /// <param name="isActive"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        [Authorize(AuthorizationType = AuthorizeType.Admin)]
+        [HttpPost]
+        [Route("createUser.php")]
+        [Produces("application/json")]
+        public UserFullDetails AddNewUser([FromForm]string firstName, [FromForm] string surname, [FromForm] bool isActive, [FromForm] string password)
+        {
+            AdminAddNewUserControllerLogic adminAddNewUserControllerLogic;
+
+            adminAddNewUserControllerLogic = new AdminAddNewUserControllerLogic();
+            return adminAddNewUserControllerLogic.AddNewUser_CreateResponse(firstName, surname, isActive, password, this.AppSettings);
+        }
+
 
 
     }
