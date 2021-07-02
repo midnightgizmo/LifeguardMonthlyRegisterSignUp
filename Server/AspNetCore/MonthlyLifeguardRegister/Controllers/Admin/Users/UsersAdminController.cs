@@ -61,6 +61,42 @@ namespace MonthlyLifeguardRegister.Controllers.Admin.Users
             return adminGetAllUsersControllerLogic.GetAllUsers_CreateResponse(this.AppSettings);
         }
 
+        /// <summary>
+        /// Updates a users details with the ones passed in
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="userFirstName"></param>
+        /// <param name="userSurname"></param>
+        /// <param name="usersIsActive"></param>
+        /// <param name="userNewPassword"></param>
+        /// <returns></returns>
+        [Authorize(AuthorizationType = AuthorizeType.Admin)]
+        [HttpPost]
+        [Route("updateUser.php")]
+        [Produces("application/json")]
+        public UserFullDetails UpdateUsersDetails([FromForm] int userId, [FromForm] string userFirstName, [FromForm] string userSurname, 
+                                                  [FromForm] bool usersIsActive, [FromForm] string userNewPassword)
+        {
+            AdminUpdateUsersDetailsControllerLogic adminUpdateUsersDetailsControllerLogic;
+            UserFullDetails userFullDetails;
+
+            adminUpdateUsersDetailsControllerLogic = new AdminUpdateUsersDetailsControllerLogic();
+            // try and update the users details
+            userFullDetails = adminUpdateUsersDetailsControllerLogic.UpdateUsersDetails_CreateResponse(userId, userFirstName, userSurname, usersIsActive, userNewPassword, this.AppSettings);
+
+            // if the users details were not updated
+            if (userFullDetails == null)
+            {
+                // send back a bad response code 400
+                this.Response.StatusCode = 400;
+                return null;
+            }
+
+            // all was ok and users deatils were updated so send back the new users details.
+            return userFullDetails;
+
+        }
+
 
 
     }
