@@ -39,5 +39,31 @@ namespace MonthlyLifeguardRegister.Classess.Security
             // create the cookie
             Response.Cookies.Append(key, value, cookieOptions);
         }
+
+        /// <summary>
+        /// Deletes the specified cookie as long as it exists by setting its expiry date to the past
+        /// </summary>
+        /// <param name="Request">Used to check if the cookie exits</param>
+        /// <param name="Response">Used to create the cookie with its date set in the past</param>
+        /// <param name="cookieName">The name of the cookie to look for and delete</param>
+        /// <returns></returns>
+        public bool DeleteCookie(HttpRequest Request, HttpResponse Response, string cookieName)
+        {
+            if (Request.Cookies[cookieName] == null)
+                return false;
+
+            // create a date that is 5 days in the past
+            DateTime pastDate = DateTime.Now.Subtract(new TimeSpan(5, 0, 0, 0));
+            // conver the past date into a DateTimeOfset as this is the format needed for creating a cookie expiry date
+            DateTimeOffset dateTimeOffset = new DateTimeOffset(pastDate);
+
+            // overwrite the cookie that is allready there and set its date to 5 days ago which will make
+            // the cookie get deleted.
+            this.CreateCookie(Response, cookieName, "-1", dateTimeOffset);
+
+            return true;
+        }
+        
+
     }
 }
