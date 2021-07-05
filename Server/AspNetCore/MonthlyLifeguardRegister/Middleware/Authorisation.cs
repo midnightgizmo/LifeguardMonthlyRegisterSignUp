@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
+using MonthlyLifeguardRegister.Classess.Database;
+using MonthlyLifeguardRegister.Classess.Database.User;
 using MonthlyLifeguardRegister.Classess.Security;
 using MonthlyLifeguardRegister.Models;
 using MonthlyLifeguardRegister.Models.User;
@@ -51,6 +53,7 @@ namespace MonthlyLifeguardRegister.Middleware
         {
             // try and find the cookie that would say the user is logged in
             string? cookieValue = httpContext.Request.Cookies[Cookies.ClientCookieName];
+            Cookies cookies;
 
             // cookie does not exist so user is not logged in.
             if (cookieValue == null)
@@ -62,8 +65,19 @@ namespace MonthlyLifeguardRegister.Middleware
 
             // if its an invalid jwt
             if (userInfo == null)
+            {
+                cookies = new Cookies(this.AppSettings.DomainName);
+                cookies.DeleteCookie(httpContext.Request, httpContext.Response, Cookies.ClientCookieName);
                 return;// should we delete the cookie?
+            }
 
+
+            if(this.DoesUserPassDatabaseChecks(userInfo.id) == false)
+            {
+                cookies = new Cookies(this.AppSettings.DomainName);
+                cookies.DeleteCookie(httpContext.Request, httpContext.Response, Cookies.ClientCookieName);
+                return;
+            }
 
             // cookie has passed validation, user has a good jwt cookie
             // create an item called User and set the userInfo as its value.
@@ -103,7 +117,41 @@ namespace MonthlyLifeguardRegister.Middleware
             httpContext.Items["Admin"] = true;
         }
 
-        
+
+        /// <summary>
+        /// Checks to make sure the user exists and that they are set to active. Returns true if pass checks
+        /// </summary>
+        /// <param name="id">The id of the user we are checking in the databae</param>
+        /// <returns>return true if passes checks, else false</returns>
+        private bool DoesUserPassDatabaseChecks(int id)
+        {
+            SqLiteConnection sqlCon;
+            dbSQLiteUser dbUser;
+            UserFullDetails userDetails;
+
+            sqlCon = new SqLiteConnection();
+            sqlCon.OpenConnection(this.AppSettings.sqlConectionStringLocation);
+
+            dbUser = new(sqlCon);
+
+            userDetails = dbUser.Select(id);
+
+            sqlCon.CloseConnection();
+
+            // if we could not find the user in the datbase, they don't pass checks cos we can't find them
+            if (userDetails == null)
+                return false;
+
+            // if the user is incative then they don't pass the checks
+            if (userDetails.isUserActive == false)
+                return false;
+
+            // we found the user and they are set to active so they passed the checks.
+            return true;
+
+        }
+
+
     }
 
     // Extension method used to add the middleware to the HTTP request pipeline.
