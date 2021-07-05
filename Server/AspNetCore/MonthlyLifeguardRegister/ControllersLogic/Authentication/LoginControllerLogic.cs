@@ -41,9 +41,18 @@ namespace MonthlyLifeguardRegister.ControllersLogic.Authentication
                                              out userFullDetails) == true)
             {// credentials validated, log them in
 
-                // create the jwt and set the cookie to send back to the user
-                loginResponseData._jwt = this.createJwtAndSetCookie(userFullDetails, appSettings, httpResponse);
-                loginResponseData._isLoggedIn = true;
+                if (userFullDetails.isUserActive == false)
+                {// set details are correct but they have been set to inactive so we cant log them in
+                    loginResponseData._isLoggedIn = false;
+                    loginResponseData._errorMessage = "Account has been disabled";
+                }
+                else
+                {// all is good, user has passed the checks.
+
+                    // create the jwt and set the cookie to send back to the user
+                    loginResponseData._jwt = this.createJwtAndSetCookie(userFullDetails, appSettings, httpResponse);
+                    loginResponseData._isLoggedIn = true;
+                }
                 
 
 
