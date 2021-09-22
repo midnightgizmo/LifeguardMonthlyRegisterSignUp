@@ -111,7 +111,13 @@ export default class NewUserComponent extends Vue
             newUser = await ajax.adminCreateUser(this.firstName.trim(),
                                  this.surname.trim(),
                                  this.isActive == '1' ? true : false,
-                                 this.dateOfBirth)
+                                 this.dateOfBirth);
+
+            // now that we have added the new user, remove the values from the input box
+            this.clearInputValues();
+            // set the first name input as focus to allow adding another user.
+            if(this.txtFirstName)
+                this.txtFirstName.focus();
         }
         catch
         {// if somthing went wrong when trying to add the user on the server.
@@ -129,6 +135,15 @@ export default class NewUserComponent extends Vue
 
 
 
+    }
+
+    /**
+     * Clears the first name and surname from the 
+     */
+    public clearInputValues()
+    {
+        this.firstName = '';
+        this.surname = '';
     }
 
     
