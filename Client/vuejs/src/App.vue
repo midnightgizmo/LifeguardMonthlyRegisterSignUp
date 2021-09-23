@@ -2,7 +2,7 @@
     
   <div id="app">
     <div class="logout-container" v-if="isLoggedIn == true">
-        <button v-on:click="cmdLogOut">Log out</button>
+        <button v-on:click="cmdLogOut">Log out - {{userName}}</button>
     </div>
     <router-view/>
   </div>
@@ -19,13 +19,14 @@ import { Component, Vue, Ref, Prop, Watch } from 'vue-property-decorator';
 export default class App extends Vue
 {
     public isLoggedIn : boolean = false;
+    public userName : string = '';
 
     @Watch('$route', { immediate: true, deep: true })
     onUrlChange(newVal: any) 
     {
       // get the name of the route for the current page we are on
       //newVal.name = "AdminLogin"
-
+        this.userName = '';
         
         // if we looking at one of the admin pages
         if((<string>newVal.path).indexOf("/admin") != -1)
@@ -41,11 +42,33 @@ export default class App extends Vue
         {
           // if the user is logged in, display the logout button, else hide the logout button
           if(document.cookie.indexOf(WebSiteLocationData.getCookieName + '=') != -1)
+          {
               this.isLoggedIn = true;
+              this.userName = this.getUserNameFromJwtCookie();
+          }
           else
               this.isLoggedIn = false;
         }
         
+    }
+
+    private getUserNameFromJwtCookie() : string
+    {
+        // get jwt cookie value
+        let jwtCookieValue : string = this.$cookies.get(WebSiteLocationData.getCookieName);
+        // were we able to get the cookies value, if not return empty string
+        if(jwtCookieValue == null)
+            return '';
+
+        // split the jwt at the dot position, get the first position in the array and convert the base64 value to redable string
+        let json = atob(<string>jwtCookieValue.split(".")[1])
+        // convert the json data to a javascript object
+        let userData = JSON.parse(json);
+        // attempt to get the user first name from the json object data
+        let userName : string = userData.userFirstName == null ? '' : userData.userFirstName;
+
+        // return the user first name or empty string if could not be found
+        return userName;
     }
 
     public cmdLogOut()
