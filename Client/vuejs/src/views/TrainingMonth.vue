@@ -858,6 +858,10 @@ export default class TrainingMonth extends Vue implements WithRoute
                         grid-column-start: 1;
                         grid-row-start: 1;
 
+                        // make each first letter of every word have a capital letter
+                        // This is because its a persons name
+                        text-transform: capitalize; 
+
                     }
                     // row number in register
                     > span
