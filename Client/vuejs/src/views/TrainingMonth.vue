@@ -82,10 +82,12 @@
                 <div v-for="aRegister in registerMonthData.registersList" class="single-register-container" :key="aRegister.id">
                     <header>
                         <div>{{aRegister.registerName}}</div>
+                        <span>Max allowed : {{aRegister.maxNoCandidatesAllowed}}</span>
                     </header>
                     <div v-if="aRegister.usersInRegister.length">
-                        <div v-for="eachUser in aRegister.usersInRegister" :key="eachUser.id">
-                            <div>{{eachUser.shortName}}</div>
+                        <div v-for="(eachUser, index) in aRegister.usersInRegister" :key="eachUser.id">
+                            <div>{{eachUser.fullName}}</div>
+                            <span>{{index + 1}}</span>
                         </div>
                         <span v-if="aRegister.usersInRegister.length >= aRegister.maxNoCandidatesAllowed">
                             This register is now full
@@ -798,6 +800,7 @@ export default class TrainingMonth extends Vue implements WithRoute
 
             > header
             {
+                // register date and time.
                 > div
                 {
                     text-align: center;
@@ -805,6 +808,15 @@ export default class TrainingMonth extends Vue implements WithRoute
                     font-weight:bold;
                     //color:green;
                     color:black;
+                }
+
+                // max number of candidates allowed in register
+                > span
+                {
+                    color: #048e42;
+                    font-style: italic;
+                    font-size: 0.8rem;
+                    display: block;
                 }
             }
 
@@ -828,6 +840,7 @@ export default class TrainingMonth extends Vue implements WithRoute
                     border-bottom: @cell-border-style;
                     border-left: @cell-border-style;
 
+                    // candidates name
                     > div
                     {
                         color:black;
@@ -841,6 +854,21 @@ export default class TrainingMonth extends Vue implements WithRoute
                         padding-bottom: 7px;
                         
                         font-size:1rem;
+
+                        grid-column-start: 1;
+                        grid-row-start: 1;
+
+                    }
+                    // row number in register
+                    > span
+                    {
+                        grid-column-start: 1;
+                        grid-row-start: 1;
+                        display: block;
+                        justify-self: start;
+                        align-self: center;
+                        margin-left: 5px;
+                        color: #e2e2e2;
                     }
                 }
                 > span
