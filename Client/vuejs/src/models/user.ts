@@ -33,6 +33,10 @@ export class user
         return this.surname.length > 0 ? this.firstName + " " + this.surname.charAt(0) : this.firstName;
     }
     
+    public get fullName() : string
+    {
+        return this.firstName + ' ' + this.surname;
+    }
 
 
 
