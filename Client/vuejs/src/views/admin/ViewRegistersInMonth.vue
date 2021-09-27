@@ -39,6 +39,16 @@
 
             </div>
         </section>
+
+        <!-- List all active users that have not booked onto this month -->
+        <section class="users-not-booked-on-container">
+            <header>
+                <span>Users Not booked onto month</span>
+            </header>
+            <div v-for="aUser in registerMonthData.usersNotBookedOntoAnyRegister" :key="aUser.id">
+                <span>{{aUser.fullName}}</span>
+            </div>
+        </section>
     </div>
 </template>
 
@@ -59,12 +69,19 @@ class RegisterMonth
     public monthName : string = "";
     public registersList : RegisterInMonth[] = [];
 
+    // list of active users that have not booked onto any register in the given month
+    public usersNotBookedOntoAnyRegister : user[] = [];
 
-
+    // a list of all active users (populated when this.inishalize is called)
+    private allActiveusers : user[] = [];
 
     /** gets the class ready to be used by the view */
     inishalize(regisersWithUsers : RegisterWithUsers[], allActiveusers : user[])
     {
+        // create a list of all active users (this will be needed when this.createListOfActiveUsersNotOnAnyRegister() is called)
+        for(let i = 0; i < allActiveusers.length; i++)
+            this.allActiveusers.push(allActiveusers[i]);
+
         // foreach reagister, create a RegisterInMonth
         // that wil hold the register and all active users
         regisersWithUsers.forEach((aRegister) =>
@@ -81,6 +98,44 @@ class RegisterMonth
             // get the year and month name e.g. January
             this.year = this.registersList[0].register.startDate.getFullYear().toString();
             this.monthName = this.registersList[0].register.startDate.toLocaleString('default', { month: 'long' });
+        }
+
+        // populates the this.usersNotBookedOntoAnyRegister with a list of user that are not
+        // currently booked onto any register in this month
+        this.createListOfActiveUsersNotOnAnyRegister();
+    }
+
+    /**
+     * populates the this.usersNotBookedOntoAnyRegister with a list of user that are not
+     * currently booked onto any register in this month
+     */
+    public createListOfActiveUsersNotOnAnyRegister()
+    {
+        // make sure the array is empty
+        this.usersNotBookedOntoAnyRegister = [];
+
+        // start by adding every active user to the list (we will then remove the ones that have been added to the registers)
+        for(let eachUserCount = 0; eachUserCount < this.allActiveusers.length; eachUserCount++)
+            this.usersNotBookedOntoAnyRegister.push(this.allActiveusers[eachUserCount]);
+
+        // now go through each register and remove users from this.usersNotBookedOntoAnyRegister if they are found in a register
+
+        // go through each register
+        for(let registerCount = 0; registerCount < this.registersList.length; registerCount++)
+        {
+            // get all user in this register
+            let usersInThisRegister = this.registersList[registerCount].register.usersInRegister;
+
+            // go through each user
+            for(let userCount = 0; userCount < usersInThisRegister.length; userCount++)
+            {
+                let indexPosition = this.usersNotBookedOntoAnyRegister.findIndex((u) => u.id == usersInThisRegister[userCount].id);
+                // if the user in the register was found in this.usersNotBookedOntoAnyRegister
+                if(indexPosition != -1)
+                {// remove the user from this.usersNotBookedOntoAnyRegister 
+                    this.usersNotBookedOntoAnyRegister.splice(indexPosition,1);
+                }
+            }
         }
     }
 }
@@ -308,8 +363,13 @@ export default class ViewRegistersInMonth extends Vue
         }
 
         if(wasSucsefull ==  true)
+        {
             // update the view model and ui (add the user to the register)
             registerInMonth.addUserToRegister(userToAddToRegister);
+
+            // update the list of people we are not currently booked into this month
+            this.registerMonthData.createListOfActiveUsersNotOnAnyRegister();
+        }
   
         this.areWeInSubmitState = false;
     }
@@ -336,8 +396,12 @@ export default class ViewRegistersInMonth extends Vue
         }
 
         if(wasSucsefull == true)
+        {
             // update the view model and ui (remove the user from the register)
             register.removeUserFromRegister(userToRemove);
+            // update the list of people we are not currently booked into this month
+            this.registerMonthData.createListOfActiveUsersNotOnAnyRegister();
+        }
 
             
         this.areWeInSubmitState = false;
@@ -516,6 +580,29 @@ div.single-register-container
                     background-color:darken(#489ED8,13%)!important;
                 }
             }
+        }
+    }
+}
+
+.users-not-booked-on-container
+{
+    margin-top: 30px;
+    > header
+    {
+        span
+        {
+            text-align: center;
+            font-size:1.4rem;
+            font-weight:bold;
+            //color:green;
+            color:black;
+        }
+    }
+    > div
+    {
+        > span
+        {
+            line-height: 1.5rem;
         }
     }
 }
