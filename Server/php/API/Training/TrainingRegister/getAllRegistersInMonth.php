@@ -29,7 +29,10 @@ catch (\Throwable $th)
 }
 
 // if we could not find the year or month (which should have been sent from the client)
-if($selectedYear == 0 || $selectedMonth == 0)
+//if($selectedYear == 0 || $selectedMonth == 0)
+// removed the month check because we can't check for zero because that is the month of january.
+// need to look at this at some point to see how we can check for the month
+if($selectedYear == 0)
 {
     
     HelperFunctions::createHeadersToSendBackToClient();
