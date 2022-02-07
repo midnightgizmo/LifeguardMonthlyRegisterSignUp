@@ -9,6 +9,8 @@ npm install
 ```
 npm run serve
 ```
+#### CORS & Development mode
+> Note: to test locally and disable CORS on chrome. Run Chrome from windows "win key" + R to load up "Run" and type the following "chrome.exe --disable-features=CrossSiteDocumentBlockingIfIsolating"
 
 ### Compiles and minifies for production
 ```
