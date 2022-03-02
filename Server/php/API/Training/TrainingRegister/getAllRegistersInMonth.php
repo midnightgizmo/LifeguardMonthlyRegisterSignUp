@@ -58,7 +58,7 @@ $timeZone = new DateTimeZone( Settings::getTimeZone() );
 $dateFromStartOfSelectedMonth = date_create ( $query_date , $timeZone );
 // create a DateTime object for the end of the month
 $dateFromEndOfSelectedMonth = new DateTime($dateFromStartOfSelectedMonth->format('Y-m-t 00:00:00'), $timeZone);
-
+$dateFromEndOfSelectedMonth->setTime(23,59,59,999);
 
 
 
