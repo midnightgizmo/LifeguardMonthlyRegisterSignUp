@@ -163,7 +163,7 @@ class RegisterMonth
 
             // don't allow user to add or remove them self from this months register if todays date
             // is greater than the first register in the list, minus 5 days)
-            this.dateWhenAllRegistersInMonthAreNoLongerEditable.setDate(this.registersList[0].startDate.getDate() - 5);
+            this.dateWhenAllRegistersInMonthAreNoLongerEditable.setDate(this.registersList[0].startDate.getDate() - 2);
             if(todaysDate < this.dateWhenAllRegistersInMonthAreNoLongerEditable)
                 this.areAllRegistersNoLongerEditable = false;
             

@@ -312,7 +312,7 @@ function areDatesOkForUserToBeAddedToRegister($registersWithUsersArray, $registe
     // get the start date and time of the first register in the array
     $dateWhenAllRegistersInMonthAreNoLongerEditable = DateTime::createFromFormat('U', $registersWithUsersArray[0]->dateTimeOfTraining, $timeZone );
     // create an internal of 5 days
-    $interval = new DateInterval('P5D');
+    $interval = new DateInterval('P2D');
     // make it so the interval acts as minus 5 days
     $interval->invert = 1;
     // minus 5 days onto the date
