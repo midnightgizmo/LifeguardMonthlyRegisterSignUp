@@ -94,11 +94,11 @@ class dbSQLiteTrainingRegister
         $results = $this->_con->ExecuteSelectCommand($query);
 
         // did we get any data from the database
-        if($row = $results->fetchArray()) 
-        {
+        //if($row = $results->fetchArray()) 
+        //{
             // get the data from the row and add it to a Models.TrainingRegister class
-            $trainingRegister = $this->GetRowData($row);
-        }
+        //    $trainingRegister = $this->GetRowData($row);
+        //}
 
         // get each row
         while ($row = $results->fetchArray()) 
