@@ -48,7 +48,10 @@ function autoLoadIncludes($className)
     $Data_Database_Admin_Folder = $Data_Database_Folder . '/Admin';
     // Data/Database/Training
     $Data_Database_Training_Folder = $Data_Database_Folder . '/Training';
+    // Data/Database/User
     $Data_Database_User_Folder = $Data_Database_Folder . '/User';
+    // Data/Database/ManikinLungs
+    $Data_Database_ManikinLungs_Folder = $Data_Database_Folder . '/ManikinLungs';
 
     // Data/Models
     $Data_Models_Folder = $Data_Folder . '/Models';
@@ -56,6 +59,8 @@ function autoLoadIncludes($className)
     $Data_Models_Training_Folder = $Data_Models_Folder . '/Training';
     // Data/Models/User
     $Data_Models_User_Folder = $Data_Models_Folder . '/User';
+    // Data/Models/ManikinLungs
+    $Data_Models_ManikinLungs_Folder = $Data_Models_Folder . '/ManikinLungs';
     
     // End of location of all folders
     ///////////////////////////////////////
@@ -105,6 +110,11 @@ function autoLoadIncludes($className)
             $filePath .= $Data_Database_User_Folder;
             break;
 
+        case 'dbLungsUserGiven':
+        case 'dbManikinLungType':
+            $filePath .= $Data_Database_ManikinLungs_Folder;
+            break;
+
         case 'TrainingRegister':
         case 'TrainingRegisterWithUsers':
             $filePath .= $Data_Models_Training_Folder;
@@ -113,6 +123,11 @@ function autoLoadIncludes($className)
         case 'User':
         case 'UsersInTrainingRegister':
             $filePath .= $Data_Models_User_Folder;
+            break;
+
+        case 'LungsUserGiven':
+        case 'ManikinLungType':
+            $filePath .= $Data_Models_ManikinLungs_Folder;
             break;
 
         
