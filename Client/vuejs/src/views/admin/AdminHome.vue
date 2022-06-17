@@ -180,11 +180,11 @@ export default class AdminHome extends Vue
     {
         let currentDate = new Date();
         
-        // create a start date for the 1st of one month ago.
-        // e.g. if today is 20th August 2020, set startDate to
-        // 1st July 2020
+        // create a start date set to the 1st of the current month
+        // e.g. if today is 20 August 2020, set StartDate to
+        // 1st August 2020
         let startDate = new Date();
-        startDate.setMonth(currentDate.getMonth()-1);
+        startDate.setMonth(currentDate.getMonth());
         startDate.setDate(1);
         // create the date as a string in the format year-month-day
         this.searchDateStart = startDate.getFullYear() + '-' + this.convertNumberToString(startDate.getMonth() + 1) + '-' + this.convertNumberToString(startDate.getDate());
