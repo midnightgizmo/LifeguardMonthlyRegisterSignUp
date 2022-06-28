@@ -33,6 +33,9 @@
                         <button @click="cmdConfirmDelete_Click">Ok</button>
                     </div>
                 </div>
+                <div>
+                    <router-link :to="{name:'UserManikinLungs', params: { userId: userModel.id, userName: userModel.fullName }}">Manikin Lungs</router-link>
+                </div>
             </div>
         </div>
     </div>
@@ -293,7 +296,7 @@ export default class UserRowComponent extends Vue
         > div
         {
             display:grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
             column-gap: 10px;
 
             > div

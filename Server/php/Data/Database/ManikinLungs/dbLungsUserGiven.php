@@ -82,12 +82,13 @@ class dbLungsUserGiven
         // an array of TrainingRegister classes
         $foundLungs = array();
 
-        $query  = "SELECT LungsUserGiven.userID, LungsUserGiven.manikinLungTypeID, MAX(LungsUserGiven.dateGivenManikinLung) ";
+        $query  = "SELECT LungsUserGiven.userID, LungsUserGiven.manikinLungTypeID, MAX(LungsUserGiven.dateGivenManikinLung) as dateGivenManikinLung ";
         $query .= "FROM User ";
         $query .= "INNER JOIN " . $this->tableName . " ";
         $query .= "ON User.id = LungsUserGiven.userId ";
         $query .= "WHERE User.isUserActive = 1 ";
-        $query .= "GROUP BY  userId, manikinLungTypeID;";
+        $query .= "GROUP BY  userId, manikinLungTypeID ";
+        $query .= "ORDER BY User.firstName;";
 
         $results = $this->_con->ExecuteSelectCommand($query);
 
@@ -272,7 +273,7 @@ class dbLungsUserGiven
     {
         $lungsUserGivenData = new LungsUserGiven();
             
-        $lungsUserGivenData->userID = (int)$row['userID'];
+        $lungsUserGivenData->userID = (int)$row['userId'];
         $lungsUserGivenData->manikinLungTypeID = (int)$row['manikinLungTypeID'];
         $lungsUserGivenData->dateGivenManikinLung = (int)$row['dateGivenManikinLung'];
 

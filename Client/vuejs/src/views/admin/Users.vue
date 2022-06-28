@@ -15,6 +15,7 @@
                 <div><span>New Password</span></div>
                 <div></div>
                 <div></div>
+                <div></div>
             </div>
             <!-- each row of user -->
             <div v-for="aUser in listOfUsers" :key="aUser.id" class="user-row-outer-container">
@@ -118,7 +119,7 @@ export default class Users extends Vue
         > .user-header-row
         {
             display:grid;
-            grid-template-columns: repeat(6, 1fr);
+            grid-template-columns: repeat(7, 1fr);
 
             > div
             {

@@ -69,6 +69,10 @@ function deleteUser($userID)
 
     // get SQLite open connection
     $con =HelperFunctions::createSQLConnection();
+
+    // remove all the lungs assigned to this user
+    $dbLungsGivenToUser = new dbLungsUserGiven($con);
+    $dbLungsGivenToUser->DeleteUser($userID);
     
     // remove the user from the registers (if in any)
     $dbUsersInRegister = new dbSQLiteUsersInTrainingRegister($con);

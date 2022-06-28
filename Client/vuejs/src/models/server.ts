@@ -3,6 +3,8 @@ import {loginAuthentication} from '@/models/authentication';
 import {Register} from '@/models/register';
 import { RegisterWithUsers } from './registerWithUsers';
 import { user } from './user';
+import { LungType} from './ManikinLungs/LungType';
+import { LungUserGiven } from './ManikinLungs/LungUserGiven';
 
 export class serverAuthentication
 {
@@ -1033,8 +1035,268 @@ export class ajaxUsers
 
 
 
-
 }
+
+
+export class ajaxManikinLungs
+{
+
+    public async adminGetListOfManikinLungTypes() : Promise<LungType[]>
+    {
+       let server = new Server();
+       let response : Response;
+
+       try
+       {
+           response = await server.sendGetRequestToServer("/admin/ManikinLungs/GetManikinLungList.php");
+
+           if(response.wereErrors == false)
+           {
+               
+
+               let arrayOfManikinLungs : LungType[] = [];
+               // go through each array item
+               (response.data as Array<any>).forEach((value) =>
+               {
+                   let lungType = new LungType();
+
+                   lungType.id = value.id;
+                   lungType.name = value.name;
+
+
+                   // add lung type to the array
+                   arrayOfManikinLungs.push(lungType);
+               });
+
+                   
+               return new Promise((success, fail) =>
+               {
+
+                   success(arrayOfManikinLungs);
+               });
+
+           }
+           else
+           {
+               return new Promise((success, fail) =>
+               {
+                   fail();
+               });
+           }
+       }
+       catch(e)
+       {
+           return new Promise((sucsess,fail) => {fail();});
+       }
+
+       return new Promise((succsess,fail) => {})
+    }
+
+    public async adminGetLatestLungsGivenToActiveUsers() : Promise<LungUserGiven[]>
+    {
+        let server = new Server();
+        let response : Response;
+
+
+        try
+        {
+            response = await server.sendGetRequestToServer("/admin/ManikinLungs/GetLatestLungsGivenOut.php");
+
+            if(response.wereErrors == false)
+            {
+                
+
+                let arrayOfManikinLungsGivenToUsers : LungUserGiven[] = [];
+                // go through each array item
+                (response.data as Array<any>).forEach((value) =>
+                {
+                    let lungGivenToUser = new LungUserGiven();
+
+                    lungGivenToUser.userID = value.userID;
+                    lungGivenToUser.manikinLungTypeID = value.manikinLungTypeID;
+                    lungGivenToUser.dateGivenManikinLung = value.dateGivenManikinLung;
+
+
+                    // add lung type to the array
+                    arrayOfManikinLungsGivenToUsers.push(lungGivenToUser);
+                });
+
+                    
+                return new Promise((success, fail) =>
+                {
+
+                    success(arrayOfManikinLungsGivenToUsers);
+                });
+
+            }
+            else
+            {
+                return new Promise((success, fail) =>
+                {
+                    fail();
+                });
+            }
+        }
+        catch(e)
+        {
+            return new Promise((sucsess,fail) => {fail();});
+        }
+    }
+
+
+    public async adminAssignLungToUser(userID: number, manikinLungID: number, unixTimeStamp: number) : Promise<LungUserGiven>
+    {
+        let server = new Server();
+        let response : Response;
+
+        let jsonData = {userId : userID,
+                        manikinLungID: manikinLungID,
+                        unixTimeStamp: unixTimeStamp};
+
+        try
+        {
+            response = await server.sendPostRequestToServer("/admin/ManikinLungs/GiveUserManikinLung.php",jsonData);
+
+            if(response.wereErrors == false)
+            {
+                return new Promise((success, fail) =>
+                {
+                    let aLungGivenToUser = new LungUserGiven();
+
+                    aLungGivenToUser.userID = response.data.userID;
+                    aLungGivenToUser.manikinLungTypeID = response.data.manikinLungTypeID;
+                    aLungGivenToUser.dateGivenManikinLung = response.data.dateGivenManikinLung;
+                    
+
+                    success(aLungGivenToUser);
+                });
+            }
+            else
+            {
+                return new Promise((success, fail) =>
+                {
+                    fail();
+                });
+            }
+        }
+        catch
+        {
+            return new Promise((sucsess,fail) => {fail();});
+        }
+
+        
+    }
+
+    public async adminGetLungsAssignedToUser(userID : number, maxNumberToReturn: number) : Promise<LungUserGiven[]>
+    {
+        let server = new Server();
+        let response : Response;
+
+        let jsonData = {userId : userID,
+                        maxNumberToReturn: maxNumberToReturn};
+
+        try
+        {
+            response = await server.sendPostRequestToServer("/admin/ManikinLungs/GetLungsAssignedToUser.php",jsonData);
+
+            if(response.wereErrors == false)
+            {
+                let arrayOfManikinLungsGivenToUsers : LungUserGiven[] = [];
+                // go through each array item
+                (response.data as Array<any>).forEach((value) =>
+                {
+                    let lungGivenToUser = new LungUserGiven();
+
+                    lungGivenToUser.userID = value.userID;
+                    lungGivenToUser.manikinLungTypeID = value.manikinLungTypeID;
+                    lungGivenToUser.dateGivenManikinLung = value.dateGivenManikinLung;
+
+
+                    // add lung type to the array
+                    arrayOfManikinLungsGivenToUsers.push(lungGivenToUser);
+                });
+
+                    
+                return new Promise((success, fail) =>
+                {
+
+                    success(arrayOfManikinLungsGivenToUsers);
+                });
+            }
+            else
+            {
+                return new Promise((success, fail) =>
+                {
+                    fail();
+                });
+            }
+        }
+        catch
+        {
+            return new Promise((sucsess,fail) => {fail();});
+        }
+    }
+
+
+    /**
+     * 
+     * @param userId Id of the user to look for
+     * @param lungId Id of the manikin lung to look for
+     * @param dateIssuedLung unix time stamp of the date the lung was issued
+     * @return ture if sucsesfull, else false
+     */
+    public async removeLungFromUser(userId: number, lungId : number, dateIssuedLung: number) : Promise<boolean>
+    {
+        let server = new Server();
+        let response : Response;
+
+        let jsonData = {userId : userId,
+                        lungId: lungId,
+                        dateIssuedLung: dateIssuedLung};
+
+        try
+        {
+            response = await server.sendPostRequestToServer("/admin/ManikinLungs/RemoveManikinLungFromUser.php",jsonData);
+
+            if(response.wereErrors == false)
+            {
+                if(response.data == true)
+                {
+                    return new Promise((success, fail) =>
+                    {
+
+                        success(true);
+                    });
+                }
+                else
+                {
+                    return new Promise((success, fail) =>
+                    {
+
+                        success(false);
+                    });
+                }
+            }
+            else
+            {
+                return new Promise((success, fail) =>
+                {
+                    fail();
+                });
+            }
+        }
+        catch
+        {
+            return new Promise((sucsess,fail) => {fail();});
+        }
+    }
+}
+
+
+
+
+
+
 
 class Server
 {

@@ -86,6 +86,10 @@
                 <span>No registers within specified dates</span>
             </div>
         </section>
+
+        <section class="LungsUsersHave">
+            <ManikinLungsUsersHaveComponent />
+        </section>
     </div>
 </template>
 
@@ -95,10 +99,11 @@
 import { Register } from '@/models/register';
 import { ajaxRegister } from '@/models/server';
 import { Component, Vue, Ref, Prop } from 'vue-property-decorator';
+import ManikinLungsUsersHaveComponent from '@/components/admin/ManikinLungsUsersHaveComponent.vue'
 
 @Component({
   components: {
-
+    ManikinLungsUsersHaveComponent
   },
   filters:{
       /** formats a date to a string e.g. "Saturday 12th" */

@@ -18,4 +18,5 @@ interface enviromentVariables
 {
     VUE_APP_RootAppLocation : string;
     VUE_APP_apiPostBackURL : string
+    VUE_APP_MaxDaysToHaveManikinLung : number
 }
