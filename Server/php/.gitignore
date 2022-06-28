@@ -3,3 +3,6 @@ env.*.php
 
 # Editor directories and files
 .vscode
+
+#database used in application
+Data/Database/dbLifeguardMonthlyRegister.db
