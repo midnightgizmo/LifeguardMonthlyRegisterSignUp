@@ -11,8 +11,27 @@ Vue.use(VueCookies);
 
 //axios.defaults.withCredentials = true;
 //axios.defaults.baseURL = WebSiteLocationData.postBackRootURL;// intercept all response axios recieves and check
+// try and construct the URL we want to post back to based on the window.locatin.protocal && hostname and the process.env.VUE_APP_apiPostBackURL
+if(window.location.protocol != undefined && window.location.protocol.length > 0 &&
+    window.location.hostname != undefined && window.location.hostname.length > 0)
+{
+  // find the "://" position at the start of the url
+  let schemePosition = (<string>process.env.VUE_APP_apiPostBackURL).indexOf("://");
+  // look for the first "/" after the "://" e.g. http://localhost/ <-- last / in that url
+  let endOfTopLevelDomainPosition = (<string>process.env.VUE_APP_apiPostBackURL).indexOf("/",schemePosition + 3);
 
-axios.defaults.baseURL = process.env.VUE_APP_apiPostBackURL;// intercept all response axios recieves and check
+  let urlSubDirectory : string = (<string>process.env.VUE_APP_apiPostBackURL).substring(endOfTopLevelDomainPosition + 1);
+
+  // if we we found a sub directory to the url (the past back url is the domain + a sub folder(s))
+  if(urlSubDirectory.length > 0)
+  {
+    axios.defaults.baseURL = window.location.protocol + "//" + window.location.hostname + "/" + urlSubDirectory;
+  }
+  else
+    axios.defaults.baseURL;
+}
+else
+  axios.defaults.baseURL = process.env.VUE_APP_apiPostBackURL;// intercept all response axios recieves and check
 
 // intercept all response axios recieves and check
 // to see if the the server sent a 403 back saying user is not logged in.
