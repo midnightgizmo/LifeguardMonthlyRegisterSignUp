@@ -79,6 +79,7 @@ class dbSQLiteUser
 
         $query  = "SELECT id, firstName, surname, password, isUserActive ";
         $query .= "FROM " . $this->tableName . " ";
+        $query .= "ORDER BY isUserActive DESC, firstName;";
 
         
 
@@ -112,7 +113,8 @@ class dbSQLiteUser
 
         $query  = "SELECT id, firstName, surname, password, isUserActive ";
         $query .= "FROM " . $this->tableName . " ";
-        $query .= "WHERE isUserActive=1";
+        $query .= "WHERE isUserActive=1 ";
+        $query .= "ORDER By firstName";
 
         
 
