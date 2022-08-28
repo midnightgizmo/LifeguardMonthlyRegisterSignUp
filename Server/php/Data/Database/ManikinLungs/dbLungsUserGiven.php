@@ -237,6 +237,7 @@ class dbLungsUserGiven
     public function DeleteUser($UserID)
     {
         $query = "DELETE FROM " . $this->tableName . " ";
+        $query .= "WHERE ";
         $query .= "userID=:userID;";
 
         // holds a list of parameters to insert into the sql query
